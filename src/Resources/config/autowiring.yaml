@@ -1,0 +1,17 @@
+services:
+  Rikudou\Unleash\Unleash: '@rikudou.unleash.unleash'
+
+  Rikudou\Unleash\Configuration\UnleashConfiguration: '@rikudou.unleash.configuration'
+
+  Rikudou\Unleash\Stickiness\StickinessCalculator: '@rikudou.unleash.stickiness.murmur'
+  Rikudou\Unleash\Stickiness\MurmurHashCalculator: '@rikudou.unleash.stickiness.murmur'
+
+  Rikudou\Unleash\Strategy\DefaultStrategyHandler: '@rikudou.unleash.strategy_handler.default'
+  Rikudou\Unleash\Strategy\GradualRolloutRandomStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_random'
+  Rikudou\Unleash\Strategy\GradualRolloutSessionIdStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_session_id'
+  Rikudou\Unleash\Strategy\GradualRolloutStrategyHandler: '@rikudou.unleash.strategy_handler.flexible_rollout'
+  Rikudou\Unleash\Strategy\GradualRolloutUserIdStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_user_id'
+  Rikudou\Unleash\Strategy\IpAddressStrategyHandler: '@rikudou.unleash.strategy_handler.ip_address'
+  Rikudou\Unleash\Strategy\UserIdStrategyHandler: '@rikudou.unleash.strategy_handler.user_id'
+
+  Rikudou\Unleash\Configuration\Context: '@rikudou.unleash.context'

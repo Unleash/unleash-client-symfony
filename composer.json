@@ -1,0 +1,40 @@
+{
+    "name": "rikudou/unleash-sdk-bundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "require": {
+        "symfony/framework-bundle": "^5.0",
+        "symfony/http-client": "^5.0",
+        "symfony/cache": "^5.0",
+        "nyholm/psr7": "^1.0",
+        "rikudou/unleash-sdk": "^1.1",
+        "php": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rikudou\\Unleash\\Bundle\\": "src/"
+        }
+    },
+    "require-dev": {
+        "rector/rector": "^0.11.35",
+        "phpstan/phpstan": "^0.12.90",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "jetbrains/phpstorm-attributes": "^1.0",
+        "symfony/security-core": "^5.0",
+        "symfony/expression-language": "^5.0"
+    },
+    "suggest": {
+        "symfony/security-bundle": "For integration of Symfony users into Unleash context",
+        "symfony/expression-language": "For integration of expression language in custom properties in Unleash context"
+    },
+    "scripts": {
+        "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
+        "phpstan": "phpstan analyse --level=max src"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/RikudouSage/UnleashSDK"
+        }
+    ]
+}

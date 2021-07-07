@@ -1,0 +1,75 @@
+<?php
+
+namespace Rikudou\Unleash\Bundle\DependencyInjection;
+
+use Exception;
+use ReflectionClass;
+use ReflectionException;
+use Rikudou\Unleash\Strategy\StrategyHandler;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+
+final class RikudouUnleashSdkExtension extends Extension
+{
+    /**
+     * @param array<string,mixed> $configs
+     *
+     * @throws Exception
+     */
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
+        $loader->load('autowiring.yaml');
+
+        $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
+        $container->setParameter('rikudou.unleash.internal.service_configs', [
+            'http_client_service' => $configs['http_client_service'],
+            'request_factory_service' => $configs['request_factory_service'],
+            'cache_service' => $configs['cache_service'],
+        ]);
+        $container->setParameter('rikudou.unleash.internal.app_url', $configs['app_url'] ?? '');
+        $container->setParameter('rikudou.unleash.internal.instance_id', $configs['instance_id'] ?? '');
+        $container->setParameter('rikudou.unleash.internal.app_name', $configs['app_name'] ?? '');
+        $container->setParameter('rikudou.unleash.internal.cache_ttl', $configs['cache_ttl']);
+        $container->setParameter('rikudou.unleash.internal.metrics_send_interval', $configs['metrics_send_interval']);
+        $container->setParameter('rikudou.unleash.internal.metrics_enabled', $configs['metrics_enabled']);
+        $container->setParameter('rikudou.unleash.internal.custom_headers', $configs['custom_headers']);
+        $container->setParameter('rikudou.unleash.internal.auto_registration', $configs['auto_registration']);
+        $container->setParameter('rikudou.unleash.internal.user_id_field', $configs['context']['user_id_field']);
+        $container->setParameter('rikudou.unleash.internal.custom_properties', $configs['context']['custom_properties']);
+
+        if (class_exists(ExpressionLanguage::class)) {
+            $definition = new Definition(ExpressionLanguage::class);
+            $container->setDefinition('rikudou.unleash.internal.expression_language', $definition);
+        }
+    }
+
+    /**
+     * @param array<mixed> $config
+     *
+     * @throws ReflectionException
+     */
+    public function getConfiguration(array $config, ContainerBuilder $container): Configuration
+    {
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
+
+        $handlerNames = [];
+        foreach ($container->findTaggedServiceIds('rikudou.unleash.built_in_strategy_handler') as $handler => $tags) {
+            $definition = $container->getDefinition($handler);
+            $class = $definition->getClass();
+            assert(is_string($class));
+            $reflection = new ReflectionClass($class);
+            $instance = $reflection->newInstanceWithoutConstructor();
+            assert($instance instanceof StrategyHandler);
+            $handlerNames[] = $instance->getStrategyName();
+        }
+
+        return new Configuration($handlerNames);
+    }
+}

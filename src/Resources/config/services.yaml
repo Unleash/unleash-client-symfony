@@ -1,0 +1,123 @@
+services:
+
+  rikudou.unleash.internal.original_context:
+    class: Rikudou\Unleash\Configuration\UnleashContext
+
+  rikudou.unleash.context:
+    class: Rikudou\Unleash\Bundle\Context\SymfonyUnleashContext
+    arguments:
+      - '@rikudou.unleash.internal.original_context'
+      - '@?security.token_storage'
+      - '%rikudou.unleash.internal.user_id_field%'
+      - '%rikudou.unleash.internal.custom_properties%'
+      - '@?request_stack'
+      - '@?rikudou.unleash.internal.expression_language'
+
+  rikudou.unleash.stickiness.murmur:
+    class: Rikudou\Unleash\Stickiness\MurmurHashCalculator
+
+  rikudou.unleash.strategy_handler.default:
+    class: Rikudou\Unleash\Strategy\DefaultStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+
+  rikudou.unleash.strategy_handler.flexible_rollout:
+    class: Rikudou\Unleash\Strategy\GradualRolloutStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+    arguments:
+      - '@rikudou.unleash.stickiness.murmur'
+
+  rikudou.unleash.strategy_handler.gradual_random:
+    class: Rikudou\Unleash\Strategy\GradualRolloutRandomStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+    arguments:
+      - '@rikudou.unleash.strategy_handler.flexible_rollout'
+
+  rikudou.unleash.strategy_handler.gradual_session_id:
+    class: Rikudou\Unleash\Strategy\GradualRolloutSessionIdStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+    arguments:
+      - '@rikudou.unleash.strategy_handler.flexible_rollout'
+
+  rikudou.unleash.strategy_handler.gradual_user_id:
+    class: Rikudou\Unleash\Strategy\GradualRolloutUserIdStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+    arguments:
+      - '@rikudou.unleash.strategy_handler.flexible_rollout'
+
+  rikudou.unleash.strategy_handler.ip_address:
+    class: Rikudou\Unleash\Strategy\IpAddressStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+
+  rikudou.unleash.strategy_handler.user_id:
+    class: Rikudou\Unleash\Strategy\UserIdStrategyHandler
+    tags:
+      - rikudou.unleash.strategy_handler
+      - rikudou.unleash.built_in_strategy_handler
+
+  rikudou.unleash.configuration:
+    class: Rikudou\Unleash\Configuration\UnleashConfiguration
+    arguments:
+      - '%rikudou.unleash.internal.app_url%'
+      - '%rikudou.unleash.internal.app_name%'
+      - '%rikudou.unleash.internal.instance_id%'
+      - '@rikudou.unleash.internal.cache'
+      - '%rikudou.unleash.internal.cache_ttl%'
+      - '%rikudou.unleash.internal.metrics_send_interval%'
+      - '%rikudou.unleash.internal.metrics_enabled%'
+      - '%rikudou.unleash.internal.custom_headers%'
+      - '%rikudou.unleash.internal.auto_registration%'
+      - '@rikudou.unleash.context'
+
+  rikudou.unleash.repository:
+    class: Rikudou\Unleash\Repository\DefaultUnleashRepository
+    arguments:
+      - '@rikudou.unleash.internal.http_client'
+      - '@rikudou.unleash.internal.request_factory'
+      - '@rikudou.unleash.configuration'
+
+  rikudou.unleash.registration_service:
+    class: Rikudou\Unleash\Client\DefaultRegistrationService
+    arguments:
+      - '@rikudou.unleash.internal.http_client'
+      - '@rikudou.unleash.internal.request_factory'
+      - '@rikudou.unleash.configuration'
+
+  rikudou.unleash.metrics_sender:
+    class: Rikudou\Unleash\Metrics\DefaultMetricsSender
+    arguments:
+      - '@rikudou.unleash.internal.http_client'
+      - '@rikudou.unleash.internal.request_factory'
+      - '@rikudou.unleash.configuration'
+
+  rikudou.unleash.metrics_handler:
+    class: Rikudou\Unleash\Metrics\DefaultMetricsHandler
+    arguments:
+      - '@rikudou.unleash.metrics_sender'
+      - '@rikudou.unleash.configuration'
+
+  rikudou.unleash.variant_handler:
+    class: Rikudou\Unleash\Variant\DefaultVariantHandler
+    arguments:
+      - '@rikudou.unleash.stickiness.murmur'
+
+  rikudou.unleash.unleash:
+    class: Rikudou\Unleash\DefaultUnleash
+    arguments:
+      - !tagged_iterator rikudou.unleash.strategy_handler
+      - '@rikudou.unleash.repository'
+      - '@rikudou.unleash.registration_service'
+      - '@rikudou.unleash.configuration'
+      - '@rikudou.unleash.metrics_handler'
+      - '@rikudou.unleash.variant_handler'
