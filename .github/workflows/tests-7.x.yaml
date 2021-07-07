@@ -11,7 +11,9 @@ jobs:
     strategy:
       matrix:
         version: ['7.3', '7.4']
-#    steps:
+    steps:
+      - name: TBD
+        run: echo 'To be done'
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@v2
 #        with:
