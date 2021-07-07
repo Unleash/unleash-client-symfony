@@ -6,5 +6,6 @@ services:
       - '%rikudou.unleash.internal.twig_functions_enabled%'
       - '%rikudou.unleash.internal.twig_filters_enabled%'
       - '%rikudou.unleash.internal.twig_tests_enabled%'
+      - '%rikudou.unleash.internal.twig_tags_enabled%'
     tags:
       - twig.extension
