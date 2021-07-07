@@ -21,7 +21,8 @@
         "friendsofphp/php-cs-fixer": "^3.0",
         "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/security-core": "^5.0",
-        "symfony/expression-language": "^5.0"
+        "symfony/expression-language": "^5.0",
+        "twig/twig": "^3.3"
     },
     "suggest": {
         "symfony/security-bundle": "For integration of Symfony users into Unleash context",

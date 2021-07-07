@@ -9,6 +9,7 @@ use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Twig\Extension\ExtensionInterface;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -91,6 +92,24 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('custom_headers')
                     ->info('Additional headers to use in http client, for Unleash "Authorization" is required')
                     ->scalarPrototype()
+                    ->end()
+                ->end()
+                ->arrayNode('twig')
+                    ->addDefaultsIfNotSet()
+                    ->info('Enable or disable twig function/filter/tests')
+                    ->children()
+                        ->booleanNode('functions')
+                            ->info('Enables the "feature_is_enabled" and "feature_variant" twig functions')
+                            ->defaultValue(interface_exists(ExtensionInterface::class))
+                        ->end()
+                        ->booleanNode('filters')
+                            ->info('Enables the "feature_is_enabled" filter')
+                            ->defaultValue(interface_exists(ExtensionInterface::class))
+                        ->end()
+                        ->booleanNode('tests')
+                            ->info('Enables the "enabled" test, allowing you to write {% if "featureName" is enabled %}')
+                            ->defaultValue(interface_exists(ExtensionInterface::class))
+                        ->end()
                     ->end()
                 ->end()
             ->end();

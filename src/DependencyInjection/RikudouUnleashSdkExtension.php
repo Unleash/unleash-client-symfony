@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Twig\Extension\ExtensionInterface;
 
 final class RikudouUnleashSdkExtension extends Extension
 {
@@ -25,6 +26,9 @@ final class RikudouUnleashSdkExtension extends Extension
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
         $loader->load('autowiring.yaml');
+        if (interface_exists(ExtensionInterface::class)) {
+            $loader->load('twig.yaml');
+        }
 
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
         $container->setParameter('rikudou.unleash.internal.service_configs', [
@@ -42,6 +46,9 @@ final class RikudouUnleashSdkExtension extends Extension
         $container->setParameter('rikudou.unleash.internal.auto_registration', $configs['auto_registration']);
         $container->setParameter('rikudou.unleash.internal.user_id_field', $configs['context']['user_id_field']);
         $container->setParameter('rikudou.unleash.internal.custom_properties', $configs['context']['custom_properties']);
+        $container->setParameter('rikudou.unleash.internal.twig_functions_enabled', $configs['twig']['functions']);
+        $container->setParameter('rikudou.unleash.internal.twig_filters_enabled', $configs['twig']['filters']);
+        $container->setParameter('rikudou.unleash.internal.twig_tests_enabled', $configs['twig']['tests']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);

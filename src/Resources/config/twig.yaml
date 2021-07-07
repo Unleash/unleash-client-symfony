@@ -1,0 +1,10 @@
+services:
+  rikudou.unleash.twig_extension:
+    class: Rikudou\Unleash\Bundle\Twig\UnleashTwigExtension
+    arguments:
+      - '@rikudou.unleash.unleash'
+      - '%rikudou.unleash.internal.twig_functions_enabled%'
+      - '%rikudou.unleash.internal.twig_filters_enabled%'
+      - '%rikudou.unleash.internal.twig_tests_enabled%'
+    tags:
+      - twig.extension
