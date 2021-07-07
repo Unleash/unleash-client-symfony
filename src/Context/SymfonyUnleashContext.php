@@ -23,7 +23,7 @@ final class SymfonyUnleashContext implements Context
         private ?string $userIdField,
         array $customProperties,
         private ?RequestStack $requestStack,
-        private ?ExpressionLanguage $expressionLanguage
+        private ?ExpressionLanguage $expressionLanguage,
     ) {
         foreach ($customProperties as $key => $value) {
             $this->context->setCustomProperty($key, $value);
