@@ -1,16 +1,16 @@
-#name: Tests (7.x)
-#on:
-#  repository_dispatch:
-#    types:
-#      - trigger-7x-tests
-#
-#jobs:
-#  tests:
-#    name: Tests
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        version: ['7.3', '7.4']
+name: Tests (7.x)
+on:
+  repository_dispatch:
+    types:
+      - trigger-7x-tests
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['7.3', '7.4']
 #    steps:
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@v2
