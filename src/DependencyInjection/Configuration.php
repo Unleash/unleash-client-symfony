@@ -110,6 +110,10 @@ final class Configuration implements ConfigurationInterface
                             ->info('Enables the "enabled" test, allowing you to write {% if "featureName" is enabled %}')
                             ->defaultValue(interface_exists(ExtensionInterface::class))
                         ->end()
+                        ->booleanNode('tags')
+                            ->info('Enables the "feature" twig tag')
+                            ->defaultValue(interface_exists(ExtensionInterface::class))
+                        ->end()
                     ->end()
                 ->end()
             ->end();

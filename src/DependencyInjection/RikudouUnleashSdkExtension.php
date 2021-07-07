@@ -49,6 +49,7 @@ final class RikudouUnleashSdkExtension extends Extension
         $container->setParameter('rikudou.unleash.internal.twig_functions_enabled', $configs['twig']['functions']);
         $container->setParameter('rikudou.unleash.internal.twig_filters_enabled', $configs['twig']['filters']);
         $container->setParameter('rikudou.unleash.internal.twig_tests_enabled', $configs['twig']['tests']);
+        $container->setParameter('rikudou.unleash.internal.twig_tags_enabled', $configs['twig']['tags']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);

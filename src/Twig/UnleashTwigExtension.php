@@ -2,6 +2,7 @@
 
 namespace Rikudou\Unleash\Bundle\Twig;
 
+use JetBrains\PhpStorm\Pure;
 use Rikudou\Unleash\Configuration\Context;
 use Rikudou\Unleash\DTO\Variant;
 use Rikudou\Unleash\Unleash;
@@ -17,6 +18,7 @@ final class UnleashTwigExtension extends AbstractExtension
         private bool $functionsEnabled,
         private bool $filtersEnabled,
         private bool $testsEnabled,
+        private bool $tagsEnabled,
     ) {
     }
 
@@ -60,6 +62,21 @@ final class UnleashTwigExtension extends AbstractExtension
 
         return [
             new TwigTest('enabled', [$this, 'isEnabled']),
+        ];
+    }
+
+    /**
+     * @return array<FeatureTagTokenParser>
+     */
+    #[Pure]
+    public function getTokenParsers(): array
+    {
+        if (!$this->tagsEnabled) {
+            return [];
+        }
+
+        return [
+            new FeatureTagTokenParser(get_class($this)),
         ];
     }
 
