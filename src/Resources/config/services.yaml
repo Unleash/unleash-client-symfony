@@ -12,6 +12,7 @@ services:
       - '%rikudou.unleash.internal.custom_properties%'
       - '@?request_stack'
       - '@?rikudou.unleash.internal.expression_language'
+      - '@?event_dispatcher'
 
   rikudou.unleash.stickiness.murmur:
     class: Rikudou\Unleash\Stickiness\MurmurHashCalculator

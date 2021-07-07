@@ -5,8 +5,11 @@ namespace Rikudou\Unleash\Bundle\Context;
 use Error;
 use JetBrains\PhpStorm\Pure;
 use ReflectionObject;
+use Rikudou\Unleash\Bundle\Event\ContextValueNotFoundEvent;
+use Rikudou\Unleash\Bundle\Event\UnleashEvents;
 use Rikudou\Unleash\Configuration\Context;
 use Rikudou\Unleash\Configuration\UnleashContext;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -24,6 +27,7 @@ final class SymfonyUnleashContext implements Context
         array $customProperties,
         private ?RequestStack $requestStack,
         private ?ExpressionLanguage $expressionLanguage,
+        private ?EventDispatcherInterface $eventDispatcher,
     ) {
         foreach ($customProperties as $key => $value) {
             $this->context->setCustomProperty($key, $value);
@@ -140,6 +144,13 @@ final class SymfonyUnleashContext implements Context
     {
         $value = $this->context->findContextValue($fieldName);
         if ($value === null) {
+            if ($this->eventDispatcher !== null) {
+                $event = new ContextValueNotFoundEvent($fieldName);
+                $this->eventDispatcher->dispatch($event, UnleashEvents::CONTEXT_VALUE_NOT_FOUND);
+
+                return $event->getValue();
+            }
+
             return null;
         }
         if (
