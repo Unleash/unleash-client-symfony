@@ -90,9 +90,11 @@ final class SymfonyUnleashContext implements Context
         return $this->context->getCustomProperty($name);
     }
 
-    public function setCustomProperty(string $name, string $value): Context
+    public function setCustomProperty(string $name, string $value): self
     {
-        return $this->context->setCustomProperty($name, $value);
+        $this->context->setCustomProperty($name, $value);
+
+        return $this;
     }
 
     #[Pure]
@@ -101,24 +103,32 @@ final class SymfonyUnleashContext implements Context
         return $this->context->hasCustomProperty($name);
     }
 
-    public function removeCustomProperty(string $name, bool $silent = true): Context
+    public function removeCustomProperty(string $name, bool $silent = true): self
     {
-        return $this->context->removeCustomProperty($name, $silent);
+        $this->context->removeCustomProperty($name, $silent);
+
+        return $this;
     }
 
-    public function setCurrentUserId(?string $currentUserId): Context
+    public function setCurrentUserId(?string $currentUserId): self
     {
-        return $this->context->setCurrentUserId($currentUserId);
+        $this->context->setCurrentUserId($currentUserId);
+
+        return $this;
     }
 
-    public function setIpAddress(?string $ipAddress): Context
+    public function setIpAddress(?string $ipAddress): self
     {
-        return $this->context->setIpAddress($ipAddress);
+        $this->context->setIpAddress($ipAddress);
+
+        return $this;
     }
 
-    public function setSessionId(?string $sessionId): UnleashContext
+    public function setSessionId(?string $sessionId): self
     {
-        return $this->context->setSessionId($sessionId);
+        $this->context->setSessionId($sessionId);
+
+        return $this;
     }
 
     public function hasMatchingFieldValue(string $fieldName, array $values): bool
