@@ -143,8 +143,8 @@ class MyListener implements EventSubscriberInterface
 
 ## Twig
 
-If you use twig you can make use of functions, filter, test and a custom tag. The names are generic that's why you can
-disable any of them in case they would clash with your own function/filters/tests/tags.
+If you use twig you can make use of functions, filter, test and a custom tag. The names are generic, that's why you can
+disable any of them in case they would clash with your own functions/filters/tests/tags.
 
 The default is that everything is enabled if twig is installed.
 
