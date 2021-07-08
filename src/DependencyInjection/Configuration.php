@@ -101,7 +101,7 @@ final class Configuration implements ConfigurationInterface
                             ->defaultValue(interface_exists(ExtensionInterface::class))
                         ->end()
                         ->booleanNode('filters')
-                            ->info('Enables the "feature_is_enabled" filter')
+                            ->info('Enables the "feature_is_enabled" and "feature_variant" filters')
                             ->defaultValue(interface_exists(ExtensionInterface::class))
                         ->end()
                         ->booleanNode('tests')

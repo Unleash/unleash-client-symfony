@@ -48,6 +48,7 @@ final class UnleashTwigExtension extends AbstractExtension
 
         return [
             new TwigFilter('feature_is_enabled', [$this, 'isEnabled']),
+            new TwigFilter('feature_variant', [$this, 'getVariant']),
         ];
     }
 

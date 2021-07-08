@@ -143,7 +143,7 @@ class MyListener implements EventSubscriberInterface
 
 ## Twig
 
-If you use twig you can make use of functions, filter, test and a custom tag. The names are generic, that's why you can
+If you use twig you can make use of functions, filters, test and a custom tag. The names are generic, that's why you can
 disable any of them in case they would clash with your own functions/filters/tests/tags.
 
 The default is that everything is enabled if twig is installed.
@@ -174,10 +174,11 @@ The first returns a boolean and the second one returns an instance of `Rikudou\U
 
 ### Twig filter
 
-Instead of function you can use a filter with the name `feature_is_enabled`.
+Instead of function you can use a filter with the same name.
 
 ```twig
 {% if 'featureName'|feature_is_enabled %}
+    {% set variant = 'featureName' | feature_variant %}
     {# Do something #}
 {% endif %}
 ```
