@@ -234,7 +234,7 @@ class MyCustomStrategy extends AbstractStrategyHandler
         
         $enabled = $context->hasMatchingFieldValue('customProperty', $someCustomProperty);
         
-        // check if the constraint are valid using the abstract class' method
+        // check if the constraints are valid using the abstract class' method
         if (!$enabled || !$this->validateConstraints($strategy, $context)) {
             return false;
         }
