@@ -247,6 +247,8 @@ class MyCustomStrategy extends AbstractStrategyHandler
 And that's it, due to implementing the interface (by extending the abstract class) your class is automatically
 registered as a strategy handler and the `Unleash` service can handle it.
 
+If you want to make use of one of the default strategies, you can, all of them support autowiring.
+
 ## Disabling built-in strategies
 
 If for some reason you want to disable any of the built-in strategies, you can do so in config.
