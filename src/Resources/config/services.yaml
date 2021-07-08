@@ -6,7 +6,6 @@ services:
   rikudou.unleash.context:
     class: Rikudou\Unleash\Bundle\Context\SymfonyUnleashContext
     arguments:
-      - '@rikudou.unleash.internal.original_context'
       - '@?security.token_storage'
       - '%rikudou.unleash.internal.user_id_field%'
       - '%rikudou.unleash.internal.custom_properties%'
@@ -114,8 +113,9 @@ services:
       - '@rikudou.unleash.stickiness.murmur'
 
   rikudou.unleash.unleash:
-    class: Rikudou\Unleash\DefaultUnleash
+    class: Rikudou\Unleash\Bundle\Unleash\UnleashDecorator
     arguments:
+      - '%rikudou.unleash.internal.disabled_strategies%'
       - !tagged_iterator rikudou.unleash.strategy_handler
       - '@rikudou.unleash.repository'
       - '@rikudou.unleash.registration_service'

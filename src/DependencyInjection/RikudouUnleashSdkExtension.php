@@ -50,6 +50,7 @@ final class RikudouUnleashSdkExtension extends Extension
         $container->setParameter('rikudou.unleash.internal.twig_filters_enabled', $configs['twig']['filters']);
         $container->setParameter('rikudou.unleash.internal.twig_tests_enabled', $configs['twig']['tests']);
         $container->setParameter('rikudou.unleash.internal.twig_tags_enabled', $configs['twig']['tags']);
+        $container->setParameter('rikudou.unleash.internal.disabled_strategies', $configs['disabled_strategies']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);
@@ -68,16 +69,29 @@ final class RikudouUnleashSdkExtension extends Extension
         $loader->load('services.yaml');
 
         $handlerNames = [];
-        foreach ($container->findTaggedServiceIds('rikudou.unleash.built_in_strategy_handler') as $handler => $tags) {
-            $definition = $container->getDefinition($handler);
-            $class = $definition->getClass();
-            assert(is_string($class));
-            $reflection = new ReflectionClass($class);
+        foreach ($this->getDefaultStrategyHandlers($container) as $defaultStrategyHandler) {
+            $reflection = new ReflectionClass($defaultStrategyHandler);
             $instance = $reflection->newInstanceWithoutConstructor();
             assert($instance instanceof StrategyHandler);
             $handlerNames[] = $instance->getStrategyName();
         }
 
         return new Configuration($handlerNames);
+    }
+
+    /**
+     * @return array<string,string>
+     */
+    private function getDefaultStrategyHandlers(ContainerBuilder $container): array
+    {
+        $result = [];
+        foreach ($container->findTaggedServiceIds('rikudou.unleash.built_in_strategy_handler') as $handler => $tags) {
+            $definition = $container->getDefinition($handler);
+            $class = $definition->getClass();
+            assert(is_string($class));
+            $result[$handler] = $class;
+        }
+
+        return $result;
     }
 }
