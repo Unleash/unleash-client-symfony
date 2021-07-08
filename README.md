@@ -194,7 +194,7 @@ You can also use a test with the name `enabled`.
 
 ### Twig tag
 
-You can use a custom `feature` tag. Anything in the body will get printed only if the feature is enabled. You also
+You can use a custom `feature` tag. Anything in the body will get processed only if the feature is enabled. You also
 have access to implicit `variant` variable.
 
 ```twig
