@@ -4,9 +4,9 @@ aka [Feature Flags](https://docs.gitlab.com/ee/operations/feature_flags.html) in
 View the standalone PHP version at [Packagist](https://packagist.org/packages/rikudou/unleash-sdk)
 or [GitHub](https://github.com/RikudouSage/UnleashSDK).
 
-Unleash allows you to gradually release your app's feature before doing a full release based on multiple strategies 
-like releasing to only specific users or releasing to a percentage of your user base. 
-Read more in the above linked documentations.
+> Unleash allows you to gradually release your app's feature before doing a full release based on multiple strategies 
+> like releasing to only specific users or releasing to a percentage of your user base. 
+> Read more in the above linked documentations.
 
 Requires php 7.3 or newer.
 
