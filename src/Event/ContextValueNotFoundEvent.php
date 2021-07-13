@@ -6,7 +6,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class ContextValueNotFoundEvent extends Event
 {
-    public function __construct(private string $contextName, private ?string $value = null)
+    private ?string $value = null;
+
+    public function __construct(private string $contextName)
     {
     }
 
