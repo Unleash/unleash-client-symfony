@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\Event;
+namespace Unleash\Client\Bundle\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
 

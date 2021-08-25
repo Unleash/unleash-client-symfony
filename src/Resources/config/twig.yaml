@@ -1,11 +1,11 @@
 services:
-  rikudou.unleash.twig_extension:
-    class: Rikudou\Unleash\Bundle\Twig\UnleashTwigExtension
+  unleash.client.twig_extension:
+    class: Unleash\Client\Bundle\Twig\UnleashTwigExtension
     arguments:
-      - '@rikudou.unleash.unleash'
-      - '%rikudou.unleash.internal.twig_functions_enabled%'
-      - '%rikudou.unleash.internal.twig_filters_enabled%'
-      - '%rikudou.unleash.internal.twig_tests_enabled%'
-      - '%rikudou.unleash.internal.twig_tags_enabled%'
+      - '@unleash.client.unleash'
+      - '%unleash.client.internal.twig_functions_enabled%'
+      - '%unleash.client.internal.twig_filters_enabled%'
+      - '%unleash.client.internal.twig_tests_enabled%'
+      - '%unleash.client.internal.twig_tags_enabled%'
     tags:
       - twig.extension

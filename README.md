@@ -1,8 +1,8 @@
 A Symfony bundle for PHP implementation of the [Unleash protocol](https://www.getunleash.io/)
 aka [Feature Flags](https://docs.gitlab.com/ee/operations/feature_flags.html) in GitLab.
 
-View the standalone PHP version at [Packagist](https://packagist.org/packages/rikudou/unleash-sdk)
-or [GitHub](https://github.com/RikudouSage/UnleashSDK).
+View the standalone PHP version at [Packagist](https://packagist.org/packages/unleash/client)
+or [GitHub](https://github.com/Unleash/unleash-client-php).
 
 > Unleash allows you to gradually release your app's feature before doing a full release based on multiple strategies 
 > like releasing to only specific users or releasing to a percentage of your user base. 
@@ -10,35 +10,35 @@ or [GitHub](https://github.com/RikudouSage/UnleashSDK).
 
 Requires php 7.3 or newer.
 
-> For generic description of the methods read the [standalone package](https://github.com/RikudouSage/UnleashSDK)
+> For generic description of the methods read the [standalone package](https://github.com/Unleash/unleash-client-php)
 > documentation, this README will focus on Symfony specific things
 
 ## Installation
 
-`composer require rikudou/unleash-sdk-bundle`
+`composer require unleash/symfony-client-bundle`
 
 > If you use [flex](https://packagist.org/packages/symfony/flex) the bundle should be enabled automatically, otherwise
-> add `Rikudou\Unleash\Bundle\RikudouUnleashSdkBundle` to your `config/bundles.php`
+> add `Unleash\Client\Bundle\UnleashSymfonyClientBundle` to your `config/bundles.php`
 
 ## Basic usage
 
 First configure the basic parameters, these three are mandatory:
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   app_url: http://localhost:4242/api
   instance_id: myCoolApp-Server1
   app_name: myCoolApp
 ```
 
 > Tip: Generate the default config by running
-> `php bin/console config:dump rikudou_unleash_sdk > config/packages/rikudou_unleash_sdk.yaml`
+> `php bin/console config:dump unleash_symfony_client > config/packages/unleash_symfony_client.yaml`
 > which will create the default config file which you can then tweak
 
 ```php
 <?php
 
-use Rikudou\Unleash\Unleash;
+use Unleash\Client\Unleash;
 
 class MyService
 {
@@ -59,8 +59,8 @@ This context is also being injected to the `Unleash` service instead of the gene
 ```php
 <?php
 
-use Rikudou\Unleash\Configuration\Context;
-use Rikudou\Unleash\Enum\ContextField;
+use Unleash\Client\Configuration\Context;
+use Unleash\Client\Enum\ContextField;
 
 class MyService
 {
@@ -83,7 +83,7 @@ field to use for the user id, by default it uses either the
 or `Symfony\Component\Security\Core\User\UserInterface::getUsername()`.
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   context:
     user_id_field: id 
 ```
@@ -101,7 +101,7 @@ your value to start with `>` and not be an expression, escape it using `\`. All 
 variable which is either the user object or null.
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   context:
     custom_properties:
       myCustomProperty: someValue # just a good old string
@@ -116,9 +116,9 @@ If you don't want to embed your logic in config, you can also listen to an event
 ```php
 <?php
 
-use Rikudou\Unleash\Bundle\Event\UnleashEvents;
+use Unleash\Client\Bundle\Event\UnleashEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Rikudou\Unleash\Bundle\Event\ContextValueNotFoundEvent;
+use Unleash\Client\Bundle\Event\ContextValueNotFoundEvent;
 
 class MyListener implements EventSubscriberInterface
 {
@@ -149,7 +149,7 @@ disable any of them in case they would clash with your own functions/filters/tes
 The default is that everything is enabled if twig is installed.
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   twig:
     functions: true
     filters: true
@@ -161,7 +161,7 @@ rikudou_unleash_sdk:
 
 There are two functions: `feature_is_enabled()` and `feature_variant()`.
 
-The first returns a boolean and the second one returns an instance of `Rikudou\Unleash\DTO\Variant`.
+The first returns a boolean and the second one returns an instance of `Unleash\Client\DTO\Variant`.
 
 ```twig
 {% if feature_is_enabled('featureName') %}
@@ -195,6 +195,8 @@ You can also use a test with the name `enabled`.
 
 ### Twig tag
 
+> This tag is experimental and may be removed in future version
+
 You can use a custom `feature` tag. Anything in the body will get processed only if the feature is enabled. You also
 have access to implicit `variant` variable.
 
@@ -207,14 +209,14 @@ have access to implicit `variant` variable.
 ## Custom strategies
 
 Defining custom strategies is very easy because they get automatically injected, you just need to create a class
-implementing `Rikudou\Unleash\Strategy\StrategyHandler` (or extending `Rikudou\Unleash\Strategy\AbstractStrategyHandler`).
+implementing `Unleash\Client\Strategy\StrategyHandler` (or extending `Unleash\Client\Strategy\AbstractStrategyHandler`).
 
 ```php
 <?php
 
-use Rikudou\Unleash\Strategy\AbstractStrategyHandler;
-use Rikudou\Unleash\DTO\Strategy;
-use Rikudou\Unleash\Configuration\Context;
+use Unleash\Client\Strategy\AbstractStrategyHandler;
+use Unleash\Client\DTO\Strategy;
+use Unleash\Client\Configuration\Context;
 
 class MyCustomStrategy extends AbstractStrategyHandler
 {
@@ -255,7 +257,7 @@ If you want to make use of one of the default strategies, you can, all of them s
 If for some reason you want to disable any of the built-in strategies, you can do so in config.
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   disabled_strategies:
     - default
     - remoteAddress
@@ -268,7 +270,7 @@ By default the services are set to make use of `symfony/http-client`, `nyholm/ps
 You can overwrite the default values in config:
 
 ```yaml
-rikudou_unleash_sdk:
+unleash_symfony_client:
   http_client_service: my_custom_http_client_service
   request_factory_service: my_custom_request_factory_service
   cache_service: my_custom_cache_service
@@ -284,11 +286,11 @@ extension means it can implement the standard `Symfony\Component\Cache\Adapter\A
 
 ## Configuration reference
 
-This is the autogenerated config dump (by running `php bin/console config:dump rikudou_unleash_sdk`):
+This is the autogenerated config dump (by running `php bin/console config:dump unleash_symfony_client`):
 
 ```yaml
 # Default configuration for extension with alias: "rikudou_unleash_sdk"
-rikudou_unleash_sdk:
+unleash_symfony_client:
 
   # The application api URL
   app_url:              null

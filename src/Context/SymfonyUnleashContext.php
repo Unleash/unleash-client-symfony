@@ -1,21 +1,21 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\Context;
+namespace Unleash\Client\Bundle\Context;
 
 use Error;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use ReflectionObject;
-use Rikudou\Unleash\Bundle\Event\ContextValueNotFoundEvent;
-use Rikudou\Unleash\Bundle\Event\UnleashEvents;
-use Rikudou\Unleash\Configuration\Context;
-use Rikudou\Unleash\Enum\ContextField;
-use Rikudou\Unleash\Enum\Stickiness;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Unleash\Client\Bundle\Event\ContextValueNotFoundEvent;
+use Unleash\Client\Bundle\Event\UnleashEvents;
+use Unleash\Client\Configuration\Context;
+use Unleash\Client\Enum\ContextField;
+use Unleash\Client\Enum\Stickiness;
 
 final class SymfonyUnleashContext implements Context
 {

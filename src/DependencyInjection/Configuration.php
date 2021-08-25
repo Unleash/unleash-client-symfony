@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\DependencyInjection;
+namespace Unleash\Client\Bundle\DependencyInjection;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
@@ -22,7 +22,7 @@ final class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('rikudou_unleash_sdk');
+        $treeBuilder = new TreeBuilder('unleash_symfony_client');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode

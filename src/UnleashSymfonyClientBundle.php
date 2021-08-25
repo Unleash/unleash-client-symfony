@@ -1,15 +1,15 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle;
+namespace Unleash\Client\Bundle;
 
-use Rikudou\Unleash\Bundle\DependencyInjection\Compiler\CacheServiceResolverCompilerPass;
-use Rikudou\Unleash\Bundle\DependencyInjection\Compiler\HttpServicesResolverCompilerPass;
-use Rikudou\Unleash\Strategy\StrategyHandler;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Unleash\Client\Bundle\DependencyInjection\Compiler\CacheServiceResolverCompilerPass;
+use Unleash\Client\Bundle\DependencyInjection\Compiler\HttpServicesResolverCompilerPass;
+use Unleash\Client\Strategy\StrategyHandler;
 
-final class RikudouUnleashSdkBundle extends Bundle
+final class UnleashSymfonyClientBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
