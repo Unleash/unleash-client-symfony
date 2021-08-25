@@ -3,6 +3,11 @@ services:
   unleash.client.internal.original_context:
     class: Unleash\Client\Configuration\UnleashContext
 
+  unleash.client.internal.context_provider:
+    class: Unleash\Client\Bundle\Context\SymfonyContextProvider
+    arguments:
+      - '@unleash.client.context'
+
   unleash.client.context:
     class: Unleash\Client\Bundle\Context\SymfonyUnleashContext
     arguments:
@@ -84,7 +89,8 @@ services:
       - '%unleash.client.internal.metrics_enabled%'
       - '%unleash.client.internal.custom_headers%'
       - '%unleash.client.internal.auto_registration%'
-      - '@unleash.client.context'
+      - null
+      - '@unleash.client.internal.context_provider'
 
   unleash.client.repository:
     class: Unleash\Client\Repository\DefaultUnleashRepository
