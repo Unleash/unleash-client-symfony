@@ -116,9 +116,9 @@ If you don't want to embed your logic in config, you can also listen to an event
 ```php
 <?php
 
-use Rikudou\Unleash\Bundle\Event\UnleashEvents;
+use Unleash\Client\Bundle\Event\UnleashEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Rikudou\Unleash\Bundle\Event\ContextValueNotFoundEvent;
+use Unleash\Client\Bundle\Event\ContextValueNotFoundEvent;
 
 class MyListener implements EventSubscriberInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\DependencyInjection;
+namespace Unleash\Client\Bundle\DependencyInjection;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;

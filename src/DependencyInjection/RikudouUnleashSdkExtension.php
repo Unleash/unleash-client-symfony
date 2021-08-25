@@ -1,11 +1,10 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\DependencyInjection;
+namespace Unleash\Client\Bundle\DependencyInjection;
 
 use Exception;
 use ReflectionClass;
 use ReflectionException;
-use Rikudou\Unleash\Strategy\StrategyHandler;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -13,6 +12,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Twig\Extension\ExtensionInterface;
+use Unleash\Client\Strategy\StrategyHandler;
 
 final class RikudouUnleashSdkExtension extends Extension
 {

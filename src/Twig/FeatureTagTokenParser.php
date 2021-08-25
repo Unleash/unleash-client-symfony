@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\Twig;
+namespace Unleash\Client\Bundle\Twig;
 
 use Twig\Node\Node;
 use Twig\Token;

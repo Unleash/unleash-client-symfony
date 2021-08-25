@@ -1,5 +1,5 @@
 {
-    "name": "rikudou/unleash-sdk-bundle",
+    "name": "unleash/symfony-client-bundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
@@ -7,12 +7,12 @@
         "symfony/http-client": "^5.0",
         "symfony/cache": "^5.0",
         "nyholm/psr7": "^1.0",
-        "rikudou/unleash-sdk": "^1.1",
+        "unleash/client": "^1.1",
         "php": "^8.0"
     },
     "autoload": {
         "psr-4": {
-            "Rikudou\\Unleash\\Bundle\\": "src/"
+            "Unleash\\Client\\Bundle\\": "src/"
         }
     },
     "require-dev": {

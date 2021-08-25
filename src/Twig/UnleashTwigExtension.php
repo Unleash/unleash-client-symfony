@@ -1,15 +1,15 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\Twig;
+namespace Unleash\Client\Bundle\Twig;
 
 use JetBrains\PhpStorm\Pure;
-use Rikudou\Unleash\Configuration\Context;
-use Rikudou\Unleash\DTO\Variant;
-use Rikudou\Unleash\Unleash;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
+use Unleash\Client\Configuration\Context;
+use Unleash\Client\DTO\Variant;
+use Unleash\Client\Unleash;
 
 final class UnleashTwigExtension extends AbstractExtension
 {

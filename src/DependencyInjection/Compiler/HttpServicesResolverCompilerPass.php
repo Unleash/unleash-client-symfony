@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\DependencyInjection\Compiler;
+namespace Unleash\Client\Bundle\DependencyInjection\Compiler;
 
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;

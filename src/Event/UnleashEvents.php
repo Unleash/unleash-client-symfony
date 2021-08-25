@@ -1,6 +1,6 @@
 <?php
 
-namespace Rikudou\Unleash\Bundle\Event;
+namespace Unleash\Client\Bundle\Event;
 
 final class UnleashEvents
 {
