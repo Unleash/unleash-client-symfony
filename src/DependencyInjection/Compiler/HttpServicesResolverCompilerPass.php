@@ -16,7 +16,7 @@ final class HttpServicesResolverCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $configs = $container->getParameter('rikudou.unleash.internal.service_configs');
+        $configs = $container->getParameter('unleash.client.internal.service_configs');
         assert(is_array($configs));
 
         $httpClientServiceName = $configs['http_client_service'];
@@ -28,13 +28,13 @@ final class HttpServicesResolverCompilerPass implements CompilerPassInterface
                 $definition = new Definition(Psr18Client::class);
                 $definition
                     ->addArgument(new Reference($httpClientServiceName))
-                    ->addArgument(new Reference('rikudou.unleash.internal.request_factory'));
-                $container->setDefinition('rikudou.unleash.internal.http_client', $definition);
+                    ->addArgument(new Reference('unleash.client.internal.request_factory'));
+                $container->setDefinition('unleash.client.internal.http_client', $definition);
             } else {
                 throw new InvalidConfigurationException('The http client service must implement either ' . ClientInterface::class . ' or ' . HttpClientInterface::class . ' interfaces');
             }
         } else {
-            $container->setAlias('rikudou.unleash.internal.http_client', $httpClientServiceName);
+            $container->setAlias('unleash.client.internal.http_client', $httpClientServiceName);
         }
 
         $requestFactoryServiceName = $configs['request_factory_service'];
@@ -44,6 +44,6 @@ final class HttpServicesResolverCompilerPass implements CompilerPassInterface
         if (!is_a($class, RequestFactoryInterface::class, true)) {
             throw new InvalidConfigurationException('The request factory service must implement ' . RequestFactoryInterface::class);
         }
-        $container->setAlias('rikudou.unleash.internal.request_factory', $requestFactoryServiceName);
+        $container->setAlias('unleash.client.internal.request_factory', $requestFactoryServiceName);
     }
 }

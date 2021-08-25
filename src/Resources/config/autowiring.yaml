@@ -1,17 +1,17 @@
 services:
-  Rikudou\Unleash\Unleash: '@rikudou.unleash.unleash'
+  Unleash\Client\Unleash: '@unleash.client.unleash'
 
-  Rikudou\Unleash\Configuration\UnleashConfiguration: '@rikudou.unleash.configuration'
+  Unleash\Client\Configuration\UnleashConfiguration: '@unleash.client.configuration'
 
-  Rikudou\Unleash\Stickiness\StickinessCalculator: '@rikudou.unleash.stickiness.murmur'
-  Rikudou\Unleash\Stickiness\MurmurHashCalculator: '@rikudou.unleash.stickiness.murmur'
+  Unleash\Client\Stickiness\StickinessCalculator: '@unleash.client.stickiness.murmur'
+  Unleash\Client\Stickiness\MurmurHashCalculator: '@unleash.client.stickiness.murmur'
 
-  Rikudou\Unleash\Strategy\DefaultStrategyHandler: '@rikudou.unleash.strategy_handler.default'
-  Rikudou\Unleash\Strategy\GradualRolloutRandomStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_random'
-  Rikudou\Unleash\Strategy\GradualRolloutSessionIdStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_session_id'
-  Rikudou\Unleash\Strategy\GradualRolloutStrategyHandler: '@rikudou.unleash.strategy_handler.flexible_rollout'
-  Rikudou\Unleash\Strategy\GradualRolloutUserIdStrategyHandler: '@rikudou.unleash.strategy_handler.gradual_user_id'
-  Rikudou\Unleash\Strategy\IpAddressStrategyHandler: '@rikudou.unleash.strategy_handler.ip_address'
-  Rikudou\Unleash\Strategy\UserIdStrategyHandler: '@rikudou.unleash.strategy_handler.user_id'
+  Unleash\Client\Strategy\DefaultStrategyHandler: '@unleash.client.strategy_handler.default'
+  Unleash\Client\Strategy\GradualRolloutRandomStrategyHandler: '@unleash.client.strategy_handler.gradual_random'
+  Unleash\Client\Strategy\GradualRolloutSessionIdStrategyHandler: '@unleash.client.strategy_handler.gradual_session_id'
+  Unleash\Client\Strategy\GradualRolloutStrategyHandler: '@unleash.client.strategy_handler.flexible_rollout'
+  Unleash\Client\Strategy\GradualRolloutUserIdStrategyHandler: '@unleash.client.strategy_handler.gradual_user_id'
+  Unleash\Client\Strategy\IpAddressStrategyHandler: '@unleash.client.strategy_handler.ip_address'
+  Unleash\Client\Strategy\UserIdStrategyHandler: '@unleash.client.strategy_handler.user_id'
 
-  Rikudou\Unleash\Configuration\Context: '@rikudou.unleash.context'
+  Unleash\Client\Configuration\Context: '@unleash.client.context'

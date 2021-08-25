@@ -31,30 +31,30 @@ final class UnleashSymfonyClientExtension extends Extension
         }
 
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $container->setParameter('rikudou.unleash.internal.service_configs', [
+        $container->setParameter('unleash.client.internal.service_configs', [
             'http_client_service' => $configs['http_client_service'],
             'request_factory_service' => $configs['request_factory_service'],
             'cache_service' => $configs['cache_service'],
         ]);
-        $container->setParameter('rikudou.unleash.internal.app_url', $configs['app_url'] ?? '');
-        $container->setParameter('rikudou.unleash.internal.instance_id', $configs['instance_id'] ?? '');
-        $container->setParameter('rikudou.unleash.internal.app_name', $configs['app_name'] ?? '');
-        $container->setParameter('rikudou.unleash.internal.cache_ttl', $configs['cache_ttl']);
-        $container->setParameter('rikudou.unleash.internal.metrics_send_interval', $configs['metrics_send_interval']);
-        $container->setParameter('rikudou.unleash.internal.metrics_enabled', $configs['metrics_enabled']);
-        $container->setParameter('rikudou.unleash.internal.custom_headers', $configs['custom_headers']);
-        $container->setParameter('rikudou.unleash.internal.auto_registration', $configs['auto_registration']);
-        $container->setParameter('rikudou.unleash.internal.user_id_field', $configs['context']['user_id_field']);
-        $container->setParameter('rikudou.unleash.internal.custom_properties', $configs['context']['custom_properties']);
-        $container->setParameter('rikudou.unleash.internal.twig_functions_enabled', $configs['twig']['functions']);
-        $container->setParameter('rikudou.unleash.internal.twig_filters_enabled', $configs['twig']['filters']);
-        $container->setParameter('rikudou.unleash.internal.twig_tests_enabled', $configs['twig']['tests']);
-        $container->setParameter('rikudou.unleash.internal.twig_tags_enabled', $configs['twig']['tags']);
-        $container->setParameter('rikudou.unleash.internal.disabled_strategies', $configs['disabled_strategies']);
+        $container->setParameter('unleash.client.internal.app_url', $configs['app_url'] ?? '');
+        $container->setParameter('unleash.client.internal.instance_id', $configs['instance_id'] ?? '');
+        $container->setParameter('unleash.client.internal.app_name', $configs['app_name'] ?? '');
+        $container->setParameter('unleash.client.internal.cache_ttl', $configs['cache_ttl']);
+        $container->setParameter('unleash.client.internal.metrics_send_interval', $configs['metrics_send_interval']);
+        $container->setParameter('unleash.client.internal.metrics_enabled', $configs['metrics_enabled']);
+        $container->setParameter('unleash.client.internal.custom_headers', $configs['custom_headers']);
+        $container->setParameter('unleash.client.internal.auto_registration', $configs['auto_registration']);
+        $container->setParameter('unleash.client.internal.user_id_field', $configs['context']['user_id_field']);
+        $container->setParameter('unleash.client.internal.custom_properties', $configs['context']['custom_properties']);
+        $container->setParameter('unleash.client.internal.twig_functions_enabled', $configs['twig']['functions']);
+        $container->setParameter('unleash.client.internal.twig_filters_enabled', $configs['twig']['filters']);
+        $container->setParameter('unleash.client.internal.twig_tests_enabled', $configs['twig']['tests']);
+        $container->setParameter('unleash.client.internal.twig_tags_enabled', $configs['twig']['tags']);
+        $container->setParameter('unleash.client.internal.disabled_strategies', $configs['disabled_strategies']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);
-            $container->setDefinition('rikudou.unleash.internal.expression_language', $definition);
+            $container->setDefinition('unleash.client.internal.expression_language', $definition);
         }
     }
 
@@ -85,7 +85,7 @@ final class UnleashSymfonyClientExtension extends Extension
     private function getDefaultStrategyHandlers(ContainerBuilder $container): array
     {
         $result = [];
-        foreach ($container->findTaggedServiceIds('rikudou.unleash.built_in_strategy_handler') as $handler => $tags) {
+        foreach ($container->findTaggedServiceIds('unleash.client.built_in_strategy_handler') as $handler => $tags) {
             $definition = $container->getDefinition($handler);
             $class = $definition->getClass();
             assert(is_string($class));

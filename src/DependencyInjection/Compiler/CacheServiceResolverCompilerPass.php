@@ -15,7 +15,7 @@ final class CacheServiceResolverCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $configs = $container->getParameter('rikudou.unleash.internal.service_configs');
+        $configs = $container->getParameter('unleash.client.internal.service_configs');
         assert(is_array($configs));
 
         $cacheServiceName = $configs['cache_service'];
@@ -27,12 +27,12 @@ final class CacheServiceResolverCompilerPass implements CompilerPassInterface
                 $definition = new Definition(Psr16Cache::class);
                 $definition
                     ->addArgument(new Reference($cacheServiceName));
-                $container->setDefinition('rikudou.unleash.internal.cache', $definition);
+                $container->setDefinition('unleash.client.internal.cache', $definition);
             } else {
                 throw new InvalidConfigurationException('The cache service must implement either ' . CacheInterface::class . ' or ' . CacheItemPoolInterface::class . ' interfaces');
             }
         } else {
-            $container->setAlias('rikudou.unleash.internal.cache', $cacheServiceName);
+            $container->setAlias('unleash.client.internal.cache', $cacheServiceName);
         }
     }
 }
