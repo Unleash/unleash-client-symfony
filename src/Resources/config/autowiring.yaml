@@ -6,6 +6,7 @@ services:
   Unleash\Client\Stickiness\StickinessCalculator: '@unleash.client.stickiness.murmur'
   Unleash\Client\Stickiness\MurmurHashCalculator: '@unleash.client.stickiness.murmur'
 
+  Unleash\Client\Strategy\ApplicationHostnameStrategyHandler: '@unleash.client.strategy_handler.application_hostname'
   Unleash\Client\Strategy\DefaultStrategyHandler: '@unleash.client.strategy_handler.default'
   Unleash\Client\Strategy\GradualRolloutRandomStrategyHandler: '@unleash.client.strategy_handler.gradual_random'
   Unleash\Client\Strategy\GradualRolloutSessionIdStrategyHandler: '@unleash.client.strategy_handler.gradual_session_id'

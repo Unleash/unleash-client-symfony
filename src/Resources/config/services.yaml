@@ -66,6 +66,12 @@ services:
       - unleash.client.strategy_handler
       - unleash.client.built_in_strategy_handler
 
+  unleash.client.strategy_handler.application_hostname:
+    class: Unleash\Client\Strategy\ApplicationHostnameStrategyHandler
+    tags:
+      - unleash.client.strategy_handler
+      - unleash.client.built_in_strategy_handler
+
   unleash.client.configuration:
     class: Unleash\Client\Configuration\UnleashConfiguration
     arguments:
