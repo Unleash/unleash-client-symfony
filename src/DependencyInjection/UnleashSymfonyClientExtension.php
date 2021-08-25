@@ -14,7 +14,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Twig\Extension\ExtensionInterface;
 use Unleash\Client\Strategy\StrategyHandler;
 
-final class RikudouUnleashSdkExtension extends Extension
+final class UnleashSymfonyClientExtension extends Extension
 {
     /**
      * @param array<string,mixed> $configs
