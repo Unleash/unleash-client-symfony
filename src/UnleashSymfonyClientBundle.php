@@ -14,7 +14,7 @@ final class UnleashSymfonyClientBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $container->registerForAutoconfiguration(StrategyHandler::class)
-            ->addTag('rikudou.unleash.strategy_handler');
+            ->addTag('unleash.client.strategy_handler');
         $container->addCompilerPass(
             new HttpServicesResolverCompilerPass(),
             PassConfig::TYPE_BEFORE_OPTIMIZATION,

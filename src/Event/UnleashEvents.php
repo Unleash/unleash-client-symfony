@@ -5,7 +5,7 @@ namespace Unleash\Client\Bundle\Event;
 final class UnleashEvents
 {
     /**
-     * @Event("Rikudou\Unleash\Bundle\Event\ContextValueNotFoundEvent")
+     * @Event("Unleash\Client\Bundle\Event\ContextValueNotFoundEvent")
      */
-    public const CONTEXT_VALUE_NOT_FOUND = 'rikudou.unleash.event.context_not_found';
+    public const CONTEXT_VALUE_NOT_FOUND = 'unleash.client.event.context_not_found';
 }
