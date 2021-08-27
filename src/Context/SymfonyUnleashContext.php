@@ -24,18 +24,26 @@ final class SymfonyUnleashContext implements Context
     private ?string $ipAddress = null;
 
     private ?string $sessionId = null;
-
+    private ?TokenStorageInterface $userTokenStorage;
+    private ?string $userIdField;
+    /**
+     * @var array<string, string>
+     */
+    private array $customProperties;
+    private ?RequestStack $requestStack;
+    private ?ExpressionLanguage $expressionLanguage;
+    private ?EventDispatcherInterface $eventDispatcher;
     /**
      * @param array<string,string> $customProperties
      */
-    public function __construct(
-        private ?TokenStorageInterface $userTokenStorage,
-        private ?string $userIdField,
-        private array $customProperties,
-        private ?RequestStack $requestStack,
-        private ?ExpressionLanguage $expressionLanguage,
-        private ?EventDispatcherInterface $eventDispatcher,
-    ) {
+    public function __construct(?TokenStorageInterface $userTokenStorage, ?string $userIdField, array $customProperties, ?RequestStack $requestStack, ?ExpressionLanguage $expressionLanguage, ?EventDispatcherInterface $eventDispatcher)
+    {
+        $this->userTokenStorage = $userTokenStorage;
+        $this->userIdField = $userIdField;
+        $this->customProperties = $customProperties;
+        $this->requestStack = $requestStack;
+        $this->expressionLanguage = $expressionLanguage;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getCurrentUserId(): ?string
@@ -51,7 +59,7 @@ final class SymfonyUnleashContext implements Context
             if (property_exists($user, $this->userIdField)) {
                 try {
                     return (string) $user->{$this->userIdField};
-                } catch (Error) {
+                } catch (Error $exception) {
                     // ignore
                 }
             }
@@ -64,7 +72,7 @@ final class SymfonyUnleashContext implements Context
 
         try {
             return $user->getUserIdentifier();
-        } catch (Error) {
+        } catch (Error $exception) {
             return $user->getUsername();
         }
     }
@@ -121,13 +129,13 @@ final class SymfonyUnleashContext implements Context
         $value = $this->customProperties[$name];
         if (
             $this->expressionLanguage !== null
-            && str_starts_with($value, '>')
+            && strncmp($value, '>', strlen('>')) === 0
         ) {
             $value = substr($value, 1);
             $value = (string) $this->expressionLanguage->evaluate($value, [
                 'user' => $this->getCurrentUser(),
             ]);
-        } elseif (str_starts_with($value, '\>')) {
+        } elseif (strncmp($value, '\>', strlen('\>')) === 0) {
             $value = substr($value, 1);
         }
 
@@ -190,12 +198,18 @@ final class SymfonyUnleashContext implements Context
 
     public function findContextValue(string $fieldName): ?string
     {
-        return match ($fieldName) {
-            ContextField::USER_ID, Stickiness::USER_ID => $this->getCurrentUserId(),
-            ContextField::SESSION_ID, Stickiness::SESSION_ID => $this->getSessionId(),
-            ContextField::IP_ADDRESS => $this->getIpAddress(),
-            default => $this->hasCustomProperty($fieldName) ? $this->getCustomProperty($fieldName) : null,
-        };
+        switch ($fieldName) {
+            case ContextField::USER_ID:
+            case Stickiness::USER_ID:
+                return $this->getCurrentUserId();
+            case ContextField::SESSION_ID:
+            case Stickiness::SESSION_ID:
+                return $this->getSessionId();
+            case ContextField::IP_ADDRESS:
+                return $this->getIpAddress();
+            default:
+                return $this->hasCustomProperty($fieldName) ? $this->getCustomProperty($fieldName) : null;
+        }
     }
 
     private function getCurrentUser(): ?UserInterface
