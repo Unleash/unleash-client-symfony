@@ -8,7 +8,7 @@
         "symfony/cache": "^5.0",
         "nyholm/psr7": "^1.0",
         "unleash/client": "^1.1",
-        "php": "^8.0"
+        "php": "^7.4"
     },
     "autoload": {
         "psr-4": {
