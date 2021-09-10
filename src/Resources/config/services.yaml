@@ -17,6 +17,7 @@ services:
       - '@?request_stack'
       - '@?unleash.client.internal.expression_language'
       - '@?event_dispatcher'
+      - '%kernel.environment%'
 
   unleash.client.stickiness.murmur:
     class: Unleash\Client\Stickiness\MurmurHashCalculator
