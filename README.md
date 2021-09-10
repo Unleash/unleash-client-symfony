@@ -93,6 +93,8 @@ With this configuration this bundle will use the `id` property to assign user id
 The bundle also automatically integrates with Symfony's request stack getting the IP address and session id from it,
 which may be particularly useful if you're behind proxy and have it in your trusted proxies list.
 
+The context environment defaults to the value of `kernel.environment` parameter.
+
 ### Custom Properties
 
 You can also define your own properties that will be present in the context. If you use the `Symfony Expression Language`

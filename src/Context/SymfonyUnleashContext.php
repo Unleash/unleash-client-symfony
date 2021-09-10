@@ -35,6 +35,7 @@ final class SymfonyUnleashContext implements Context
         private ?RequestStack $requestStack,
         private ?ExpressionLanguage $expressionLanguage,
         private ?EventDispatcherInterface $eventDispatcher,
+        private ?string $environment = null,
     ) {
     }
 
@@ -194,8 +195,21 @@ final class SymfonyUnleashContext implements Context
             ContextField::USER_ID, Stickiness::USER_ID => $this->getCurrentUserId(),
             ContextField::SESSION_ID, Stickiness::SESSION_ID => $this->getSessionId(),
             ContextField::IP_ADDRESS => $this->getIpAddress(),
+            ContextField::ENVIRONMENT => $this->getEnvironment(),
             default => $this->hasCustomProperty($fieldName) ? $this->getCustomProperty($fieldName) : null,
         };
+    }
+
+    public function getEnvironment(): ?string
+    {
+        return $this->environment;
+    }
+
+    public function setEnvironment(?string $environment): self
+    {
+        $this->environment = $environment;
+
+        return $this;
     }
 
     private function getCurrentUser(): ?UserInterface
