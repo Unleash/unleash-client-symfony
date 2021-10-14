@@ -98,6 +98,9 @@ final class SymfonyUnleashContext implements Context
         if ($request === null) {
             return null;
         }
+        if ($request->hasSession() !== true) {
+            return null;
+        }
         $session = $request->getSession();
 
         return $session->getId();
