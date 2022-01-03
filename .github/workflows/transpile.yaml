@@ -2,7 +2,7 @@ name: Transpile to 7.x
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
       - name: Install Dependencies
         run: composer install
       - name: Transpile to 7.3
@@ -46,7 +46,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
       - name: Install Dependencies
         run: composer install
       - name: Transpile to 7.4

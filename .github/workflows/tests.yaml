@@ -2,7 +2,7 @@ name: Tests (8.x)
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
   workflow_dispatch:
 
