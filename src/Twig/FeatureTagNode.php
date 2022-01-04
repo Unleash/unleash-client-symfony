@@ -17,7 +17,7 @@ final class FeatureTagNode extends Node
         parent::__construct([], [], $line, $tag);
     }
 
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $compiler
             ->addDebugInfo($this)
