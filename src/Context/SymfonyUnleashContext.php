@@ -63,10 +63,12 @@ final class SymfonyUnleashContext implements Context
             return (string) $idProperty->getValue($user);
         }
 
+
+
         try {
             return $user->getUserIdentifier();
         } catch (Error) {
-            return $user->getUsername();
+            return method_exists($user, 'getUsername') ? $user->getUsername() : null;
         }
     }
 
