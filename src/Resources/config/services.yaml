@@ -135,3 +135,11 @@ services:
       - '@unleash.client.configuration'
       - '@unleash.client.metrics_handler'
       - '@unleash.client.variant_handler'
+
+  unleash.client.is_enabled_attribute_listener:
+    class: Unleash\Client\Bundle\Listener\ControllerAttributeResolver
+    arguments:
+      - '@unleash.client.unleash'
+      - '@event_dispatcher'
+    tags:
+      - kernel.event_subscriber
