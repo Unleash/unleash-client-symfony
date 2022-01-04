@@ -66,7 +66,7 @@ final class SymfonyUnleashContext implements Context
         try {
             return $user->getUserIdentifier();
         } catch (Error) {
-            return $user->getUsername();
+            return method_exists($user, 'getUsername') ? $user->getUsername() : null;
         }
     }
 
