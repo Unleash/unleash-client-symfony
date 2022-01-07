@@ -106,6 +106,8 @@ services:
       - '@unleash.client.internal.http_client'
       - '@unleash.client.internal.request_factory'
       - '@unleash.client.configuration'
+      - 'unleash-client-symfony'
+      - '0.9.2'
 
   unleash.client.metrics_sender:
     class: Unleash\Client\Metrics\DefaultMetricsSender
