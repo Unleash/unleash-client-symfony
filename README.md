@@ -51,6 +51,90 @@ class MyService
 }
 ```
 
+## Controller attribute
+
+You can also check for feature flag using an `#[IsEnabled]` attribute on a controller. You can use it on the whole
+controller class as well as on a concrete method.
+
+```php
+<?php
+
+use Unleash\Client\Bundle\Attribute\IsEnabled;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+
+#[IsEnabled('my_awesome_feature')]
+final class MyController
+{
+    #[IsEnabled('another_awesome_feature', Response::HTTP_BAD_REQUEST)]
+    #[Route('/my-route')]
+    public function myRoute(): Response
+    {
+        // todo
+    }
+    
+    #[Route('/other-route')]
+    public function otherRoute(): Response
+    {
+        // todo
+    }
+}
+```
+
+In the example above the user on `/my-route` needs both `my_awesome_feature` and `another_awesome_feature` enabled
+(because of one attribute on the class and another attribute on the method) while the `/other-route` needs only
+`my_awesome_feature` enabled (because of class attribute).
+
+You can also notice that one of the attributes specifies a second optional parameter with status code. The supported
+status codes are:
+- `404` - `NotFoundHttpException`
+- `403` - `AccessDeniedHttpException`
+- `400` - `BadRequestHttpException`
+- `401` - `UnauthorizedHttpException` with message "Unauthorized". 
+
+The default status code is `404`. If you use an unsupported status code `InvalidValueException` will be thrown.
+
+### Setting custom exception for attribute
+
+If you want custom exception for situations when user is denied access based on the attribute, you can listen to an event:
+
+```php
+<?php
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Unleash\Client\Bundle\Event\UnleashEvents;
+use Unleash\Client\Bundle\Event\BeforeExceptionThrownForAttributeEvent;
+use Symfony\Component\HttpFoundation\Response;
+
+final class MySubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            UnleashEvents::BEFORE_EXCEPTION_THROWN_FOR_ATTRIBUTE => 'handleException',
+        ];
+    }
+    
+    public function handleException(BeforeExceptionThrownForAttributeEvent $event): void
+    {
+        $statusCode = $event->getErrorCode();
+        switch ($statusCode) {
+            case Response::HTTP_NOT_FOUND:
+                $exception = new CustomException('Custom message');
+                break;
+            default:
+                $exception = null;
+        }
+        
+        // the exception can be a Throwable or null, null means that this bundle reverts 
+        // to its own default exceptions
+        $event->setException($exception);
+    }
+}
+
+```
+
 ## Context
 
 The context object supplies additional parameters to Unleash and supports Symfony features out of the box.
