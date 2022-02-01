@@ -63,7 +63,7 @@ final class UnleashSymfonyClientExtension extends Extension
      *
      * @throws ReflectionException
      */
-    public function getConfiguration(array $config, ContainerBuilder $container): Configuration
+    public function getConfiguration(array $config, ContainerBuilder $container): ?\Symfony\Component\Config\Definition\ConfigurationInterface
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
