@@ -40,6 +40,10 @@ final class ControllerAttributeResolver implements EventSubscriberInterface
 
     public function onControllerResolved(ControllerEvent $event): void
     {
+        if (PHP_VERSION_ID < 80000) {
+            return;
+        }
+
         $controller = $event->getController();
         if (
             !is_array($controller)
