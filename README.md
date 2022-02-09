@@ -1,3 +1,5 @@
+[![Download](https://img.shields.io/packagist/dt/unleash/symfony-client-bundle.svg)](https://packagist.org/packages/unleash/symfony-client-bundle)
+
 A Symfony bundle for PHP implementation of the [Unleash protocol](https://www.getunleash.io/)
 aka [Feature Flags](https://docs.gitlab.com/ee/operations/feature_flags.html) in GitLab.
 
