@@ -42,12 +42,14 @@ final class BootstrapResolver implements CompilerPassInterface
                 E_USER_WARNING
             );
         }
+
+        $this->registerServiceService($serviceId, $container);
     }
 
-    private function registerFileService(string $file, ContainerBuilder $containerBuilder): void
+    private function registerFileService(string $file, ContainerBuilder $container): void
     {
         $definition = new Definition(FileBootstrapProvider::class, [$file]);
-        $containerBuilder->setDefinition(self::INTERNAL_SERVICE_NAME, $definition);
+        $container->setDefinition(self::INTERNAL_SERVICE_NAME, $definition);
     }
 
     private function registerServiceService(string $serviceId, ContainerBuilder $container): void
