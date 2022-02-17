@@ -10,6 +10,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\ExtensionInterface;
+use Unleash\Client\Bootstrap\BootstrapProvider;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -65,6 +66,10 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('cache_service')
                     ->info('The cache service, must implement the ' . CacheInterface::class . ' or ' . CacheItemPoolInterface::class . ' interface')
                     ->defaultValue('cache.app')
+                ->end()
+                ->scalarNode('bootstrap')
+                    ->info(sprintf('Default bootstrap in case contacting Unleash servers fails. Can be a path to file (prefixed with file://) or a service implementing %s (prefixed with @)', BootstrapProvider::class))
+                    ->defaultNull()
                 ->end()
                 ->arrayNode('disabled_strategies')
                     ->info('Disabled default strategies, must be one of: ' . implode(', ', $this->defaultStrategyNames))
