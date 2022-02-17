@@ -10,13 +10,13 @@ use Unleash\Client\Bootstrap\FileBootstrapProvider;
 
 final class BootstrapResolver implements CompilerPassInterface
 {
-    private const TAG = 'unleash.client.internal.bootstrap';
+    private const TAG = 'unleash.client.bootstrap_provider';
 
     private const INTERNAL_SERVICE_NAME = 'unleash.client.internal.bootstrap_service';
 
     public function process(ContainerBuilder $container): void
     {
-        $bootstrap = $container->getParameter(self::TAG);
+        $bootstrap = $container->getParameter('unleash.client.internal.bootstrap');
         if ($bootstrap === null) {
             $this->registerTaggedService($container);
         } elseif (str_starts_with($bootstrap, 'file://')) {
@@ -30,7 +30,7 @@ final class BootstrapResolver implements CompilerPassInterface
 
     private function registerTaggedService(ContainerBuilder $container): void
     {
-        $serviceIds = array_keys($container->findTaggedServiceIds('unleash.client.bootstrap_provider'));
+        $serviceIds = array_keys($container->findTaggedServiceIds(self::TAG));
         if (!count($serviceIds)) {
             return;
         }
