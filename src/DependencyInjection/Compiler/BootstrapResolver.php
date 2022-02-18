@@ -17,6 +17,8 @@ final class BootstrapResolver implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $bootstrap = $container->getParameter('unleash.client.internal.bootstrap');
+        assert(is_string($bootstrap) || $bootstrap === null);
+
         if ($bootstrap === null) {
             $this->registerTaggedService($container);
         } elseif (str_starts_with($bootstrap, 'file://')) {
