@@ -52,6 +52,7 @@ final class UnleashSymfonyClientExtension extends Extension
         $container->setParameter('unleash.client.internal.twig_tags_enabled', $configs['twig']['tags']);
         $container->setParameter('unleash.client.internal.disabled_strategies', $configs['disabled_strategies']);
         $container->setParameter('unleash.client.internal.bootstrap', $configs['bootstrap']);
+        $container->setParameter('unleash.client.internal.fetching_enabled', $configs['fetching_enabled']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);

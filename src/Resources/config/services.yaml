@@ -94,6 +94,7 @@ services:
       - '@unleash.client.internal.context_provider'
       - null
       - '@?unleash.client.internal.bootstrap_service'
+      - '%unleash.client.internal.fetching_enabled%'
 
   unleash.client.repository:
     class: Unleash\Client\Repository\DefaultUnleashRepository
