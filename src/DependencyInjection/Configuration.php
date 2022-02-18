@@ -10,6 +10,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\ExtensionInterface;
+use Unleash\Client\Bootstrap\BootstrapProvider;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -54,6 +55,10 @@ final class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->booleanNode('fetching_enabled')
+                    ->info('Whether to enable communication with Unleash server or not. If you set it to false you must also provide a bootstrap.')
+                    ->defaultTrue()
+                ->end()
                 ->scalarNode('http_client_service')
                     ->info('The http client service, must implement the ' . ClientInterface::class . ' or ' . HttpClientInterface::class . ' interface')
                     ->defaultValue('psr18.http_client')
@@ -65,6 +70,10 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('cache_service')
                     ->info('The cache service, must implement the ' . CacheInterface::class . ' or ' . CacheItemPoolInterface::class . ' interface')
                     ->defaultValue('cache.app')
+                ->end()
+                ->scalarNode('bootstrap')
+                    ->info(sprintf('Default bootstrap in case contacting Unleash servers fails. Can be a path to file (prefixed with file://) or a service implementing %s (prefixed with @)', BootstrapProvider::class))
+                    ->defaultNull()
                 ->end()
                 ->arrayNode('disabled_strategies')
                     ->info('Disabled default strategies, must be one of: ' . implode(', ', $this->defaultStrategyNames))

@@ -2,6 +2,8 @@
 
 namespace Unleash\Client\Bundle\Context;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Error;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
@@ -199,6 +201,7 @@ final class SymfonyUnleashContext implements Context
             ContextField::SESSION_ID, Stickiness::SESSION_ID => $this->getSessionId(),
             ContextField::IP_ADDRESS => $this->getIpAddress(),
             ContextField::ENVIRONMENT => $this->getEnvironment(),
+            ContextField::CURRENT_TIME => $this->getCurrentTime()->format(DateTimeInterface::ISO8601),
             default => $this->hasCustomProperty($fieldName) ? $this->getCustomProperty($fieldName) : null,
         };
     }
@@ -211,6 +214,47 @@ final class SymfonyUnleashContext implements Context
     public function setEnvironment(?string $environment): self
     {
         $this->environment = $environment;
+
+        return $this;
+    }
+
+    public function getHostname(): ?string
+    {
+        if ($this->hasCustomProperty('hostname')) {
+            return $this->getCustomProperty('hostname');
+        }
+
+        return gethostname() ?: null;
+    }
+
+    public function setHostname(?string $hostname): self
+    {
+        if ($hostname === null) {
+            $this->removeCustomProperty(ContextField::HOSTNAME);
+        } else {
+            $this->setCustomProperty(ContextField::HOSTNAME, $hostname);
+        }
+
+        return $this;
+    }
+
+    public function getCurrentTime(): DateTimeInterface
+    {
+        if (!$this->hasCustomProperty('currentTime')) {
+            return new DateTimeImmutable();
+        }
+
+        return new DateTimeImmutable($this->getCustomProperty('currentTime'));
+    }
+
+    public function setCurrentTime(DateTimeInterface|string|null $time): self
+    {
+        if ($time === null) {
+            $this->removeCustomProperty('currentTime');
+        } else {
+            $value = is_string($time) ? $time : $time->format(DateTimeInterface::ISO8601);
+            $this->setCustomProperty('currentTime', $value);
+        }
 
         return $this;
     }
