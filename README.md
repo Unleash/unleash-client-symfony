@@ -453,6 +453,9 @@ unleash_symfony_client:
     # Any additional context properties
     custom_properties:    []
 
+  # Whether to enable communication with Unleash server or not. If you set it to false you must also provide a bootstrap.
+  fetching_enabled:     true
+
   # The http client service, must implement the Psr\Http\Client\ClientInterface or Symfony\Contracts\HttpClient\HttpClientInterface interface
   http_client_service:  psr18.http_client
 
