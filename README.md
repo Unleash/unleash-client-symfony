@@ -229,6 +229,26 @@ class MyListener implements EventSubscriberInterface
 }
 ```
 
+## Events
+
+There are two kinds of events, events from the base Unleash php sdk and from this Symfony bundle.
+
+### Base SDK events
+
+- `\Unleash\Client\Event\UnleashEvents::FEATURE_TOGGLE_NOT_FOUND`
+- `\Unleash\Client\Event\UnleashEvents::FEATURE_TOGGLE_DISABLED`
+- `\Unleash\Client\Event\UnleashEvents::FEATURE_TOGGLE_MISSING_STRATEGY_HANDLER`
+
+> For more information read the [documentation](https://github.com/Unleash/unleash-client-php/blob/main/doc/events.md) 
+> in the base SDK.
+
+### Symfony bundle events
+
+- `\Unleash\Client\Bundle\Event\UnleashEvents::CONTEXT_VALUE_NOT_FOUND`
+- `\Unleash\Client\Bundle\Event\UnleashEvents::BEFORE_EXCEPTION_THROWN_FOR_ATTRIBUTE`
+
+> The events are documented in relevant parts of this README.
+
 ## Twig
 
 If you use twig you can make use of functions, filters, test and a custom tag. The names are generic, that's why you can
