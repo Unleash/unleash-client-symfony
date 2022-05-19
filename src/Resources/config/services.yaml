@@ -95,6 +95,7 @@ services:
       - null
       - '@?unleash.client.internal.bootstrap_service'
       - '%unleash.client.internal.fetching_enabled%'
+      - '@?event_dispatcher'
 
   unleash.client.repository:
     class: Unleash\Client\Repository\DefaultUnleashRepository
