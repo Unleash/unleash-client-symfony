@@ -37,6 +37,7 @@ jobs:
         run: 'sed -i -e ''s/"php": "\^8.0"/"php": "\^7.3"/'' composer.json'
       - name: Commit PHP 7.3 version
         run: |
+          git config --global --add safe.directory /github/workspace && \
           git config user.email noreply@github.com && \
           git config user.name "GitHub Actions" && \
           git checkout -b tmp-php-7.3-release && \
@@ -64,6 +65,7 @@ jobs:
         run: 'sed -i -e ''s/"php": "\^8.0"/"php": "\^7.4"/'' composer.json'
       - name: Commit PHP 7.4 version
         run: |
+          git config --global --add safe.directory /github/workspace && \
           git config user.email noreply@github.com && \
           git config user.name "GitHub Actions" && \
           git checkout -b tmp-php-7.4-release && \
