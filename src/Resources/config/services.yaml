@@ -111,7 +111,7 @@ services:
       - '@unleash.client.internal.request_factory'
       - '@unleash.client.configuration'
       - 'unleash-client-symfony'
-      - '0.9.7'
+      - '0.9.8'
 
   unleash.client.metrics_sender:
     class: Unleash\Client\Metrics\DefaultMetricsSender
