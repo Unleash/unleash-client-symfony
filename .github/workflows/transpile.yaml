@@ -27,7 +27,7 @@ jobs:
       - name: Update README
         run: sed -i '1s/^/# This branch is auto generated\n/' README.md
       - name: Commit PHP 7.3 version
-        uses: actions-x/commit@v2
+        uses: actions-x/commit@v6
         with:
           files: .
           branch: php-7.3
@@ -56,7 +56,7 @@ jobs:
       - name: Update README
         run: sed -i '1s/^/# This branch is auto generated\n/' README.md
       - name: Commit PHP 7.4 version
-        uses: actions-x/commit@v2
+        uses: actions-x/commit@v6
         with:
           files: .
           branch: php-7.4
