@@ -101,6 +101,7 @@ services:
       - '@?unleash.client.internal.bootstrap_service'
       - '%unleash.client.internal.fetching_enabled%'
       - '@unleash.client.internal.event_dispatcher'
+      - '%unleash.client.internal.stale_ttl%'
 
   unleash.client.repository:
     class: Unleash\Client\Repository\DefaultUnleashRepository

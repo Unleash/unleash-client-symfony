@@ -503,6 +503,9 @@ unleash_symfony_client:
   # The time in seconds the features will stay valid in cache
   cache_ttl:            30
 
+  # The maximum age (in seconds) old features will be served from cache if http request fails for some reason
+  stale_ttl:            1800
+
   # Additional headers to use in http client, for Unleash "Authorization" is required
   custom_headers:       []
 
