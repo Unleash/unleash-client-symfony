@@ -7,9 +7,13 @@ use Unleash\Client\ContextProvider\UnleashContextProvider;
 
 final class SymfonyContextProvider implements UnleashContextProvider
 {
-    public function __construct(
-        private SymfonyUnleashContext $context
-    ) {
+    /**
+     * @var \Unleash\Client\Bundle\Context\SymfonyUnleashContext
+     */
+    private $context;
+    public function __construct(SymfonyUnleashContext $context)
+    {
+        $this->context = $context;
     }
 
     public function getContext(): Context

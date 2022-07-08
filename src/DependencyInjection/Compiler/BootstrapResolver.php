@@ -21,9 +21,9 @@ final class BootstrapResolver implements CompilerPassInterface
 
         if ($bootstrap === null) {
             $this->registerTaggedService($container);
-        } elseif (str_starts_with($bootstrap, 'file://')) {
+        } elseif (strncmp($bootstrap, 'file://', strlen('file://')) === 0) {
             $this->registerFileService($bootstrap, $container);
-        } elseif (str_starts_with($bootstrap, '@')) {
+        } elseif (strncmp($bootstrap, '@', strlen('@')) === 0) {
             $this->registerServiceService(substr($bootstrap, 1), $container);
         } else {
             throw new LogicException("Unknown value for bootstrap: {$bootstrap}");
