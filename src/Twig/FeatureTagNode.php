@@ -7,13 +7,28 @@ use Twig\Node\Node;
 
 final class FeatureTagNode extends Node
 {
+    /**
+     * @var string
+     */
+    private $featureName;
+    /**
+     * @var \Twig\Node\Node
+     */
+    private $content;
+    /**
+     * @var string
+     */
+    private $extensionClass;
     public function __construct(
-        private string $featureName,
-        private Node $content,
+        string $featureName,
+        Node $content,
         int $line,
         string $tag,
-        private string $extensionClass
+        string $extensionClass
     ) {
+        $this->featureName = $featureName;
+        $this->content = $content;
+        $this->extensionClass = $extensionClass;
         parent::__construct([], [], $line, $tag);
     }
 
