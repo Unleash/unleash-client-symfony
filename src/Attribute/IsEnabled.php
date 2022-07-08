@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
 final class IsEnabled
 {
+    public string $featureName;
+    public int $errorCode = Response::HTTP_NOT_FOUND;
     public function __construct(
-        public string $featureName,
-        #[ExpectedValues([
-            Response::HTTP_NOT_FOUND,
-            Response::HTTP_FORBIDDEN,
-            Response::HTTP_BAD_REQUEST,
-            Response::HTTP_UNAUTHORIZED,
-        ])]
-        public int $errorCode = Response::HTTP_NOT_FOUND,
-    ) {
+        string $featureName,
+        #[\JetBrains\PhpStorm\ExpectedValues([\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN, \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED])]
+        int $errorCode = Response::HTTP_NOT_FOUND
+    )
+    {
+        $this->featureName = $featureName;
+        $this->errorCode = $errorCode;
     }
 }
