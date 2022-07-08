@@ -53,6 +53,7 @@ final class UnleashSymfonyClientExtension extends Extension
         $container->setParameter('unleash.client.internal.disabled_strategies', $configs['disabled_strategies']);
         $container->setParameter('unleash.client.internal.bootstrap', $configs['bootstrap']);
         $container->setParameter('unleash.client.internal.fetching_enabled', $configs['fetching_enabled']);
+        $container->setParameter('unleash.client.internal.stale_ttl', $configs['stale_ttl']);
 
         if (class_exists(ExpressionLanguage::class)) {
             $definition = new Definition(ExpressionLanguage::class);
