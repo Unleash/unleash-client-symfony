@@ -19,6 +19,9 @@ final class CacheServiceResolverCompilerPass implements CompilerPassInterface
         assert(is_array($configs));
 
         $cacheServiceName = $configs['cache_service'];
+        if ($container->hasAlias($cacheServiceName)) {
+            $cacheServiceName = $container->getAlias($cacheServiceName);
+        }
         $definition = $container->getDefinition($cacheServiceName);
         $class = $definition->getClass();
         assert(is_string($class));
