@@ -202,7 +202,7 @@ final class SymfonyUnleashContext implements Context
             ContextField::IP_ADDRESS => $this->getIpAddress(),
             ContextField::ENVIRONMENT => $this->getEnvironment(),
             ContextField::CURRENT_TIME => $this->getCurrentTime()->format(DateTimeInterface::ISO8601),
-            default => $this->hasCustomProperty($fieldName) ? $this->getCustomProperty($fieldName) : null,
+            default => $this->getCustomProperty($fieldName),
         };
     }
 
