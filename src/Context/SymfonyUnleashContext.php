@@ -8,11 +8,13 @@ use Error;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\Pure;
 use ReflectionObject;
+use Stringable;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use TypeError;
 use Unleash\Client\Bundle\Event\ContextValueNotFoundEvent;
 use Unleash\Client\Bundle\Event\UnleashEvents;
 use Unleash\Client\Configuration\Context;
@@ -62,7 +64,17 @@ final class SymfonyUnleashContext implements Context
             $idProperty = $reflection->getProperty($this->userIdField);
             $idProperty->setAccessible(true);
 
-            return (string) $idProperty->getValue($user);
+            $value = $idProperty->getValue($user);
+            if (!is_scalar($value) && !$value instanceof Stringable) {
+                throw new TypeError(sprintf(
+                    "The value of %s::%s must be convertable to string, '%s' given",
+                    get_class($user),
+                    $this->userIdField,
+                    is_object($value) ? get_class($value) : gettype($value),
+                ));
+            }
+
+            return (string) $value;
         }
 
         try {
@@ -129,10 +141,18 @@ final class SymfonyUnleashContext implements Context
             $this->expressionLanguage !== null
             && str_starts_with($value, '>')
         ) {
-            $value = substr($value, 1);
-            $value = (string) $this->expressionLanguage->evaluate($value, [
+            $expression = substr($value, 1);
+            $value = $this->expressionLanguage->evaluate($expression, [
                 'user' => $this->getCurrentUser(),
             ]);
+            if (!is_scalar($value) && !$value instanceof Stringable) {
+                throw new TypeError(sprintf(
+                    "The expression %s must evaluate to a type that is convertable to string, '%s' given",
+                    $expression,
+                    is_object($value) ? get_class($value) : gettype($value),
+                ));
+            }
+            $value = (string) $value;
         } elseif (str_starts_with($value, '\>')) {
             $value = substr($value, 1);
         }
