@@ -2,4 +2,4 @@ parameters:
   ignoreErrors:
     - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition#'
     - '#expects class-string.+?, string given#'
-    - '#no value type specified in iterable type Twig\\Node\\Node#'
+    - '#Dead catch - Error is never thrown in the try block.#'
