@@ -55,8 +55,8 @@ class MyService
 
 ## Controller attribute
 
-You can also check for feature flag using an `#[IsEnabled]` attribute on a controller. You can use it on the whole
-controller class as well as on a concrete method.
+You can also check for feature flag using `#[IsEnabled]` and `#[IsNotEnabled]` attributes on a controller. You can use
+it on the whole controller class as well as on a concrete method.
 
 ```php
 <?php
@@ -64,7 +64,6 @@ controller class as well as on a concrete method.
 use Unleash\Client\Bundle\Attribute\IsEnabled;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
 
 #[IsEnabled('my_awesome_feature')]
 final class MyController
@@ -88,12 +87,33 @@ In the example above the user on `/my-route` needs both `my_awesome_feature` and
 (because of one attribute on the class and another attribute on the method) while the `/other-route` needs only
 `my_awesome_feature` enabled (because of class attribute).
 
+```php
+<?php
+
+use Unleash\Client\Bundle\Attribute\IsNotEnabled;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[IsNotEnabled('kill_switch')]
+final class MyHeavyController
+{
+    #[Route('/my-route')]
+    public function myRoute(): Response
+    {
+        // todo
+    }
+}
+```
+
+In the second example, `/my-route` route is only enabled if `kill_switch` is **not** enabled.
+
 You can also notice that one of the attributes specifies a second optional parameter with status code. The supported
 status codes are:
 - `404` - `NotFoundHttpException`
 - `403` - `AccessDeniedHttpException`
 - `400` - `BadRequestHttpException`
-- `401` - `UnauthorizedHttpException` with message "Unauthorized". 
+- `401` - `UnauthorizedHttpException` with message "Unauthorized".
+- `503` - `ServiceUnavailableHttpException`
 
 The default status code is `404`. If you use an unsupported status code `InvalidValueException` will be thrown.
 

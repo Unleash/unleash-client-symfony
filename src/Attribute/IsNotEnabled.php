@@ -7,7 +7,7 @@ use JetBrains\PhpStorm\ExpectedValues;
 use Symfony\Component\HttpFoundation\Response;
 
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
-final class IsEnabled implements ControllerAttribute
+final class IsNotEnabled implements ControllerAttribute
 {
     public function __construct(
         public string $featureName,
