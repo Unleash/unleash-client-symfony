@@ -65,7 +65,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('request_factory_service')
                     ->info('The request factory service, must implement the ' . RequestFactoryInterface::class . ' interface')
-                    ->defaultValue('nyholm.psr7.psr17_factory')
+                    ->defaultNull()
                 ->end()
                 ->scalarNode('cache_service')
                     ->info('The cache service, must implement the ' . CacheInterface::class . ' or ' . CacheItemPoolInterface::class . ' interface')
