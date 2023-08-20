@@ -12,11 +12,14 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Throwable;
+use Unleash\Client\Bundle\Attribute\ControllerAttribute;
 use Unleash\Client\Bundle\Attribute\IsEnabled;
+use Unleash\Client\Bundle\Attribute\IsNotEnabled;
 use Unleash\Client\Bundle\Event\BeforeExceptionThrownForAttributeEvent;
 use Unleash\Client\Bundle\Event\UnleashEvents;
 use Unleash\Client\Exception\InvalidValueException;
@@ -61,36 +64,44 @@ final class ControllerAttributeResolver implements EventSubscriberInterface
         $reflectionClass = new ReflectionClass($class);
         $reflectionMethod = $reflectionClass->getMethod($method);
 
-        /** @var array<ReflectionAttribute<IsEnabled>> $attributes */
+        /** @var array<ReflectionAttribute<ControllerAttribute>> $attributes */
         $attributes = [
-            ...$reflectionClass->getAttributes(IsEnabled::class),
-            ...$reflectionMethod->getAttributes(IsEnabled::class),
+            ...$reflectionClass->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF),
+            ...$reflectionMethod->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF),
         ];
 
         foreach ($attributes as $attribute) {
             $attribute = $attribute->newInstance();
-            assert($attribute instanceof IsEnabled);
-            if (!$this->unleash->isEnabled($attribute->featureName)) {
+            assert($attribute instanceof ControllerAttribute);
+
+            $isFeatureEnabled = $this->unleash->isEnabled($attribute->getFeatureName());
+            $throwException = match ($attribute::class) {
+                IsEnabled::class => !$isFeatureEnabled,
+                IsNotEnabled::class => $isFeatureEnabled,
+                default => false,
+            };
+            if ($throwException) {
                 throw $this->getException($attribute);
             }
         }
     }
 
-    private function getException(IsEnabled $attribute): HttpException|Throwable
+    private function getException(ControllerAttribute $attribute): HttpException|Throwable
     {
-        $event = new BeforeExceptionThrownForAttributeEvent($attribute->errorCode);
+        $event = new BeforeExceptionThrownForAttributeEvent($attribute->getErrorCode());
         $this->eventDispatcher->dispatch($event, UnleashEvents::BEFORE_EXCEPTION_THROWN_FOR_ATTRIBUTE);
         $exception = $event->getException();
         if ($exception !== null) {
             return $exception;
         }
 
-        return match ($attribute->errorCode) {
+        return match ($attribute->getErrorCode()) {
             Response::HTTP_BAD_REQUEST => new BadRequestHttpException(),
             Response::HTTP_UNAUTHORIZED => new UnauthorizedHttpException('Unauthorized'),
             Response::HTTP_FORBIDDEN => new AccessDeniedHttpException(),
             Response::HTTP_NOT_FOUND => new NotFoundHttpException(),
-            default => throw new InvalidValueException("Unsupported status code: {$attribute->errorCode}"),
+            Response::HTTP_SERVICE_UNAVAILABLE => new ServiceUnavailableHttpException(),
+            default => throw new InvalidValueException("Unsupported status code: {$attribute->getErrorCode()}"),
         };
     }
 }
