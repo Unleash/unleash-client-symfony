@@ -288,6 +288,19 @@ final class SymfonyUnleashContext implements Context
         return $this;
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getCustomProperties(): array
+    {
+        $result = [];
+        foreach (array_keys($this->customProperties) as $propertyName) {
+            $result[$propertyName] = $this->getCustomProperty($propertyName);
+        }
+
+        return $result;
+    }
+
     private function getCurrentUser(): ?UserInterface
     {
         if ($this->userTokenStorage === null) {
