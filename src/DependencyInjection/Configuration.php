@@ -64,7 +64,7 @@ final class Configuration implements ConfigurationInterface
                     ->defaultValue('psr18.http_client')
                 ->end()
                 ->scalarNode('request_factory_service')
-                    ->info('The request factory service, must implement the ' . RequestFactoryInterface::class . ' interface')
+                    ->info('The request factory service, must implement the ' . RequestFactoryInterface::class . ' interface. Providing null means autodetect between supported default services.')
                     ->defaultNull()
                 ->end()
                 ->scalarNode('cache_service')
