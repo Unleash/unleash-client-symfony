@@ -38,6 +38,15 @@ final class HttpServicesResolverCompilerPass implements CompilerPassInterface
         }
 
         $requestFactoryServiceName = $configs['request_factory_service'];
+        if ($requestFactoryServiceName === null) {
+            if ($container->hasDefinition('nyholm.psr7.psr17_factory')) {
+                $requestFactoryServiceName = 'nyholm.psr7.psr17_factory';
+            } elseif ($container->hasDefinition('http_discovery.psr17_factory')) {
+                $requestFactoryServiceName = 'http_discovery.psr17_factory';
+            } else {
+                throw new InvalidConfigurationException('Cannot find any supported default request factory service, tried nyholm and http_discovery');
+            }
+        }
         $definition = $container->getDefinition($requestFactoryServiceName);
         $class = $definition->getClass();
         assert(is_string($class));
