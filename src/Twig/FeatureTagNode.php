@@ -8,11 +8,11 @@ use Twig\Node\Node;
 final class FeatureTagNode extends Node
 {
     public function __construct(
-        private string $featureName,
-        private Node $content,
+        private readonly string $featureName,
+        private readonly Node $content,
         int $line,
         string $tag,
-        private string $extensionClass
+        private readonly string $extensionClass
     ) {
         parent::__construct([], [], $line, $tag);
     }

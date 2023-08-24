@@ -12,13 +12,17 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Extension\ExtensionInterface;
 use Unleash\Client\Bootstrap\BootstrapProvider;
 
-final class Configuration implements ConfigurationInterface
+/**
+ * @todo Make internal in next major
+ */
+final readonly class Configuration implements ConfigurationInterface
 {
     /**
      * @param array<string> $defaultStrategyNames
      */
-    public function __construct(private array $defaultStrategyNames)
-    {
+    public function __construct(
+        private array $defaultStrategyNames,
+    ) {
     }
 
     public function getConfigTreeBuilder(): TreeBuilder

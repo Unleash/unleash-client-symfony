@@ -14,6 +14,9 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Twig\Extension\ExtensionInterface;
 use Unleash\Client\Strategy\StrategyHandler;
 
+/**
+ * @todo Make internal in next major
+ */
 final class UnleashSymfonyClientExtension extends Extension
 {
     /**
