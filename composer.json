@@ -22,7 +22,8 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/security-core": "^5.0 | ^6.0",
         "symfony/expression-language": "^5.0 | ^6.0",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "symfony/yaml": "^6.3"
     },
     "suggest": {
         "symfony/security-bundle": "For integration of Symfony users into Unleash context",
