@@ -15,10 +15,15 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 final class Configuration implements ConfigurationInterface
 {
     /**
+     * @var array<string>
+     */
+    private array $defaultStrategyNames;
+    /**
      * @param array<string> $defaultStrategyNames
      */
-    public function __construct(private array $defaultStrategyNames)
+    public function __construct(array $defaultStrategyNames)
     {
+        $this->defaultStrategyNames = $defaultStrategyNames;
     }
 
     public function getConfigTreeBuilder(): TreeBuilder
