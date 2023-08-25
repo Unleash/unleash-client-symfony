@@ -25,7 +25,7 @@ use Unleash\Client\Bundle\Event\UnleashEvents;
 use Unleash\Client\Exception\InvalidValueException;
 use Unleash\Client\Unleash;
 
-final class ControllerAttributeResolver implements EventSubscriberInterface
+final readonly class ControllerAttributeResolver implements EventSubscriberInterface
 {
     public function __construct(
         private Unleash $unleash,

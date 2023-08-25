@@ -6,6 +6,9 @@ use Attribute;
 use JetBrains\PhpStorm\ExpectedValues;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @todo Make readonly in next major
+ */
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
 final class IsNotEnabled implements ControllerAttribute
 {

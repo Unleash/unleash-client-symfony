@@ -12,7 +12,10 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class HttpServicesResolverCompilerPass implements CompilerPassInterface
+/**
+ * @todo Make internal in next major
+ */
+final readonly class HttpServicesResolverCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

@@ -8,7 +8,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Unleash\Client\Bootstrap\FileBootstrapProvider;
 
-final class BootstrapResolver implements CompilerPassInterface
+/**
+ * @todo Make internal in next major
+ */
+final readonly class BootstrapResolver implements CompilerPassInterface
 {
     private const TAG = 'unleash.client.bootstrap_provider';
 

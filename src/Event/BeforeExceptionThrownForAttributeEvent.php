@@ -17,7 +17,7 @@ final class BeforeExceptionThrownForAttributeEvent
             Response::HTTP_BAD_REQUEST,
             Response::HTTP_UNAUTHORIZED,
         ])]
-        private int $errorCode
+        private readonly int $errorCode,
     ) {
     }
 

@@ -8,7 +8,7 @@
         "symfony/cache": "^5.0 | ^6.0",
         "nyholm/psr7": "^1.0",
         "unleash/client": "^1.6",
-        "php": "^8.0"
+        "php": "^8.2"
     },
     "autoload": {
         "psr-4": {
@@ -22,7 +22,8 @@
         "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/security-core": "^5.0 | ^6.0",
         "symfony/expression-language": "^5.0 | ^6.0",
-        "twig/twig": "^3.3"
+        "twig/twig": "^3.3",
+        "symfony/yaml": "^6.3"
     },
     "suggest": {
         "symfony/security-bundle": "For integration of Symfony users into Unleash context",

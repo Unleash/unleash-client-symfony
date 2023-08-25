@@ -1,3 +1,6 @@
+parameters:
+  unleash.bundle.version: '0.9.14'
+
 services:
 
   unleash.client.internal.original_context:
@@ -117,7 +120,7 @@ services:
       - '@unleash.client.internal.request_factory'
       - '@unleash.client.configuration'
       - 'unleash-client-symfony'
-      - '0.9.14'
+      - '%unleash.bundle.version%'
 
   unleash.client.metrics_sender:
     class: Unleash\Client\Metrics\DefaultMetricsSender
