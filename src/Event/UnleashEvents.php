@@ -2,7 +2,7 @@
 
 namespace Unleash\Client\Bundle\Event;
 
-final readonly class UnleashEvents
+final class UnleashEvents
 {
     /**
      * @Event("Unleash\Client\Bundle\Event\ContextValueNotFoundEvent")
