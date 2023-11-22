@@ -21,6 +21,8 @@ jobs:
             return context.payload.ref.replace(/refs\/tags\/release-/, '');
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: composer install
       - name: Check if version is updated in SDK
         env:
           VERSION: ${{ steps.extract_name.outputs.result }}
