@@ -19,6 +19,10 @@ jobs:
           result-encoding: string
           script: |
             return context.payload.ref.replace(/refs\/tags\/release-/, '');
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Install dependencies
