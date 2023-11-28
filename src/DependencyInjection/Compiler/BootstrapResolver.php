@@ -6,6 +6,7 @@ use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Unleash\Client\Bootstrap\EmptyBootstrapProvider;
 use Unleash\Client\Bootstrap\FileBootstrapProvider;
 
 /**
@@ -37,6 +38,8 @@ final readonly class BootstrapResolver implements CompilerPassInterface
     {
         $serviceIds = array_keys($container->findTaggedServiceIds(self::TAG));
         if (!count($serviceIds)) {
+            $this->registerEmptyService($container);
+
             return;
         }
 
@@ -60,5 +63,11 @@ final readonly class BootstrapResolver implements CompilerPassInterface
     private function registerServiceService(string $serviceId, ContainerBuilder $container): void
     {
         $container->setAlias(self::INTERNAL_SERVICE_NAME, $serviceId);
+    }
+
+    private function registerEmptyService(ContainerBuilder $container): void
+    {
+        $definition = new Definition(EmptyBootstrapProvider::class);
+        $container->setDefinition(self::INTERNAL_SERVICE_NAME, $definition);
     }
 }
