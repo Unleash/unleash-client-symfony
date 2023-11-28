@@ -11,11 +11,6 @@ services:
     arguments:
       - '@unleash.client.context'
 
-  unleash.client.internal.event_dispatcher:
-    class: Unleash\Client\Helper\EventDispatcher
-    arguments:
-      - '@?event_dispatcher'
-
   unleash.client.context:
     class: Unleash\Client\Bundle\Context\SymfonyUnleashContext
     arguments:
@@ -89,22 +84,20 @@ services:
   unleash.client.configuration:
     class: Unleash\Client\Configuration\UnleashConfiguration
     arguments:
-      - '%unleash.client.internal.app_url%'
-      - '%unleash.client.internal.app_name%'
-      - '%unleash.client.internal.instance_id%'
-      - '@unleash.client.internal.cache'
-      - '%unleash.client.internal.cache_ttl%'
-      - '%unleash.client.internal.metrics_send_interval%'
-      - '%unleash.client.internal.metrics_enabled%'
-      - '%unleash.client.internal.custom_headers%'
-      - '%unleash.client.internal.auto_registration%'
-      - null
-      - '@unleash.client.internal.context_provider'
-      - null
-      - '@?unleash.client.internal.bootstrap_service'
-      - '%unleash.client.internal.fetching_enabled%'
-      - '@unleash.client.internal.event_dispatcher'
-      - '%unleash.client.internal.stale_ttl%'
+      $url: '%unleash.client.internal.app_url%'
+      $appName: '%unleash.client.internal.app_name%'
+      $instanceId: '%unleash.client.internal.instance_id%'
+      $cache: '@unleash.client.internal.cache'
+      $ttl: '%unleash.client.internal.cache_ttl%'
+      $metricsInterval: '%unleash.client.internal.metrics_send_interval%'
+      $metricsEnabled: '%unleash.client.internal.metrics_enabled%'
+      $headers: '%unleash.client.internal.custom_headers%'
+      $autoRegistrationEnabled: '%unleash.client.internal.auto_registration%'
+      $contextProvider: '@unleash.client.internal.context_provider'
+      $bootstrapProvider: '@?unleash.client.internal.bootstrap_service'
+      $fetchingEnabled: '%unleash.client.internal.fetching_enabled%'
+      $eventDispatcher: '@event_dispatcher'
+      $staleTtl: '%unleash.client.internal.stale_ttl%'
 
   unleash.client.repository:
     class: Unleash\Client\Repository\DefaultUnleashRepository
