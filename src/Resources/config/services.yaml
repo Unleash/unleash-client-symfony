@@ -94,7 +94,7 @@ services:
       $headers: '%unleash.client.internal.custom_headers%'
       $autoRegistrationEnabled: '%unleash.client.internal.auto_registration%'
       $contextProvider: '@unleash.client.internal.context_provider'
-      $bootstrapProvider: '@?unleash.client.internal.bootstrap_service'
+      $bootstrapProvider: '@unleash.client.internal.bootstrap_service'
       $fetchingEnabled: '%unleash.client.internal.fetching_enabled%'
       $eventDispatcher: '@event_dispatcher'
       $staleTtl: '%unleash.client.internal.stale_ttl%'
