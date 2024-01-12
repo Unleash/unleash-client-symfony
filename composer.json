@@ -3,10 +3,10 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
-        "symfony/framework-bundle": "^5.0 | ^6.0",
-        "symfony/event-dispatcher": "^5.0 | ^6.0",
-        "symfony/http-client": "^5.0 | ^6.0",
-        "symfony/cache": "^5.0 | ^6.0",
+        "symfony/framework-bundle": "^5.0 | ^6.0 | ^7.0",
+        "symfony/event-dispatcher": "^5.0 | ^6.0 | ^7.0",
+        "symfony/http-client": "^5.0 | ^6.0 | ^7.0",
+        "symfony/cache": "^5.0 | ^6.0 | ^7.0",
         "nyholm/psr7": "^1.0",
         "unleash/client": "^1.6 | ^2.0",
         "php": "^8.2"
@@ -21,10 +21,10 @@
         "phpstan/phpstan": "^1.10",
         "friendsofphp/php-cs-fixer": "^3.15",
         "jetbrains/phpstorm-attributes": "^1.0",
-        "symfony/security-core": "^5.0 | ^6.0",
-        "symfony/expression-language": "^5.0 | ^6.0",
+        "symfony/security-core": "^5.0 | ^6.0 | ^7.0",
+        "symfony/expression-language": "^5.0 | ^6.0 | ^7.0",
         "twig/twig": "^3.3",
-        "symfony/yaml": "^6.3"
+        "symfony/yaml": "^6.3 | ^7.0"
     },
     "suggest": {
         "symfony/security-bundle": "For integration of Symfony users into Unleash context",
