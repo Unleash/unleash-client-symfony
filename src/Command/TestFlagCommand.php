@@ -94,12 +94,16 @@ final class TestFlagCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        $flagName = $input->getArgument('flag');
+        assert(is_string($flagName));
+
         if ($input->getOption('force')) {
             $this->cache->clear();
         }
 
         $result = $this->unleash->isEnabled(
-            $input->getArgument('flag'),
+            $flagName,
             $this->createContext($input),
         );
 
@@ -108,7 +112,7 @@ final class TestFlagCommand extends Command
             $expected = $expected === 'true';
         }
         $success = ($expected === null && $result) || ($expected !== null && $result === $expected);
-        $message = "The feature flag '{$input->getArgument('flag')}' evaluated to: " . ($result ? 'true' : 'false');
+        $message = "The feature flag '{$flagName}' evaluated to: " . ($result ? 'true' : 'false');
 
         $success
             ? $io->success($message)
@@ -127,8 +131,11 @@ final class TestFlagCommand extends Command
 
     private function createContext(InputInterface $input): Context
     {
+        $customContextInput = $input->getOption('custom-context');
+        assert(is_array($customContextInput));
+
         $customContext = [];
-        foreach ($input->getOption('custom-context') as $item) {
+        foreach ($customContextInput as $item) {
             if (!fnmatch('*=*', $item)) {
                 throw new LogicException('The value must be a key=value pair.');
             }
@@ -136,14 +143,28 @@ final class TestFlagCommand extends Command
             $customContext[trim($key)] = trim($value);
         }
 
+        $userId = $input->getOption('user-id');
+        $ipAddress = $input->getOption('ip-address');
+        $sessionId = $input->getOption('session-id');
+        $hostname = $input->getOption('hostname');
+        $environment = $input->getOption('environment');
+        $currentTime = $input->getOption('current-time');
+
+        assert($userId === null || is_string($userId));
+        assert($ipAddress === null || is_string($ipAddress));
+        assert($sessionId === null || is_string($sessionId));
+        assert($hostname === null || is_string($hostname));
+        assert($environment === null || is_string($environment));
+        assert($currentTime === null || is_string($currentTime));
+
         return new UnleashContext(
-            currentUserId: $input->getOption('user-id'),
-            ipAddress: $input->getOption('ip-address'),
-            sessionId: $input->getOption('session-id'),
+            currentUserId: $userId,
+            ipAddress: $ipAddress,
+            sessionId: $sessionId,
             customContext: $customContext,
-            hostname: $input->getOption('hostname'),
-            environment: $input->getOption('environment'),
-            currentTime: $input->getOption('current-time'),
+            hostname: $hostname,
+            environment: $environment,
+            currentTime: $currentTime,
         );
     }
 }
