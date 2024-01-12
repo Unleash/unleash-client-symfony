@@ -3,7 +3,7 @@
 namespace Unleash\Client\Bundle\Command;
 
 use LogicException;
-use Psr\Cache\CacheItemPoolInterface;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +19,7 @@ final class TestFlagCommand extends Command
     public function __construct(
         string $name,
         private readonly Unleash $unleash,
-        private readonly CacheItemPoolInterface $cache,
+        private readonly CacheInterface $cache,
     ) {
         parent::__construct($name);
     }
