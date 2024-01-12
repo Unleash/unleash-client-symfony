@@ -13,15 +13,34 @@ use Unleash\Client\Unleash;
 
 final class UnleashTwigExtension extends AbstractExtension
 {
-    public function __construct(
-        private readonly Unleash $unleash,
-        private readonly bool $functionsEnabled,
-        private readonly bool $filtersEnabled,
-        private readonly bool $testsEnabled,
-        private readonly bool $tagsEnabled,
-    ) {
+    /**
+     * @readonly
+     */
+    private Unleash $unleash;
+    /**
+     * @readonly
+     */
+    private bool $functionsEnabled;
+    /**
+     * @readonly
+     */
+    private bool $filtersEnabled;
+    /**
+     * @readonly
+     */
+    private bool $testsEnabled;
+    /**
+     * @readonly
+     */
+    private bool $tagsEnabled;
+    public function __construct(Unleash $unleash, bool $functionsEnabled, bool $filtersEnabled, bool $testsEnabled, bool $tagsEnabled)
+    {
+        $this->unleash = $unleash;
+        $this->functionsEnabled = $functionsEnabled;
+        $this->filtersEnabled = $filtersEnabled;
+        $this->testsEnabled = $testsEnabled;
+        $this->tagsEnabled = $tagsEnabled;
     }
-
     /**
      * @return array<TwigFunction>
      */
@@ -69,13 +88,11 @@ final class UnleashTwigExtension extends AbstractExtension
     /**
      * @return array<FeatureTagTokenParser>
      */
-    #[Pure]
     public function getTokenParsers(): array
     {
         if (!$this->tagsEnabled) {
             return [];
         }
-
         return [
             new FeatureTagTokenParser(get_class($this)),
         ];
