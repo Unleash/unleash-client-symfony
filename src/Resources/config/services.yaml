@@ -151,3 +151,12 @@ services:
       - '@event_dispatcher'
     tags:
       - kernel.event_subscriber
+
+  unleash.client.command.test_flag:
+    class: Unleash\Client\Bundle\Command\TestFlagCommand
+    arguments:
+      $name: 'unleash:test-flag'
+      $unleash: '@unleash.client.unleash'
+      $cache: '@unleash.client.internal.cache'
+    tags:
+      - console.command
