@@ -27,6 +27,7 @@ final class TestFlagCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setDescription('Check the status of an Unleash feature')
             ->addArgument(
                 name: 'flag',
                 mode: InputArgument::REQUIRED,
