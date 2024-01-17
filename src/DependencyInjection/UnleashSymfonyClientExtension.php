@@ -39,9 +39,19 @@ final class UnleashSymfonyClientExtension extends Extension
             'request_factory_service' => $configs['request_factory_service'],
             'cache_service' => $configs['cache_service'],
         ]);
-        $container->setParameter('unleash.client.internal.app_url', $configs['app_url'] ?? '');
-        $container->setParameter('unleash.client.internal.instance_id', $configs['instance_id'] ?? '');
-        $container->setParameter('unleash.client.internal.app_name', $configs['app_name'] ?? '');
+
+        $dsn = $configs['dsn'] ?? null;
+        if ($dsn !== null) {
+            $details = $this->parseDsn($dsn);
+            $container->setParameter('unleash.client.internal.app_url', $details['url'] ?? '');
+            $container->setParameter('unleash.client.internal.instance_id', $details['instanceId'] ?? '');
+            $container->setParameter('unleash.client.internal.app_name', $details['appName'] ?? '');
+        } else {
+            $container->setParameter('unleash.client.internal.app_url', $configs['app_url'] ?? '');
+            $container->setParameter('unleash.client.internal.instance_id', $configs['instance_id'] ?? '');
+            $container->setParameter('unleash.client.internal.app_name', $configs['app_name'] ?? '');
+        }
+
         $container->setParameter('unleash.client.internal.cache_ttl', $configs['cache_ttl']);
         $container->setParameter('unleash.client.internal.metrics_send_interval', $configs['metrics_send_interval']);
         $container->setParameter('unleash.client.internal.metrics_enabled', $configs['metrics_enabled']);
@@ -99,5 +109,33 @@ final class UnleashSymfonyClientExtension extends Extension
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $dsn
+     *
+     * @return array{url: string|null, instanceId: string|null, appName: string|null}
+     */
+    private function parseDsn(string $dsn): array
+    {
+        $query = parse_url($dsn, PHP_URL_QUERY);
+        assert(is_string($query));
+        $instanceUrl = str_replace("?{$query}", '', $dsn);
+        if (str_contains($instanceUrl, '%3F')) {
+            $instanceUrl = urldecode($instanceUrl);
+        }
+        parse_str($query, $queryParts);
+
+        $instanceId = $queryParts['instance_id'] ?? null;
+        $appName = $queryParts['app_name'] ?? null;
+
+        assert(is_string($instanceId));
+        assert(is_string($appName));
+
+        return [
+            'url' => $instanceUrl,
+            'instanceId' => $instanceId,
+            'appName' => $appName,
+        ];
     }
 }

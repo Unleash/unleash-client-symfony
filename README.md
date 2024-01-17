@@ -24,7 +24,14 @@ Requires php 7.3 or newer.
 
 ## Basic usage
 
-First configure the basic parameters, these three are mandatory:
+First configure the basic parameters, either using a DSN or as separate parameters:
+
+```yaml
+unleash_symfony_client:
+  dsn: http://localhost:4242/api&instance_id=myCoolApp-Server1&app_name=myCoolApp
+```
+
+or
 
 ```yaml
 unleash_symfony_client:
