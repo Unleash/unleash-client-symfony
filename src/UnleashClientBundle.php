@@ -11,7 +11,7 @@ use Unleash\Client\Bundle\DependencyInjection\Compiler\CacheServiceResolverCompi
 use Unleash\Client\Bundle\DependencyInjection\Compiler\HttpServicesResolverCompilerPass;
 use Unleash\Client\Strategy\StrategyHandler;
 
-final class UnleashSymfonyClientBundle extends Bundle
+final class UnleashClientBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
