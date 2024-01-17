@@ -35,10 +35,8 @@ final readonly class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('dsn')
                     ->info('You can provide the connection details as a DSN instead of app_url, instance_id and app_name. DSN takes precedence over individual parameters.')
-                    ->example([
-                        'https://localhost:4242/api?instance_id=myCoolApp-Server1&app_name=myCoolApp',
-                        'https://example.com/endpoint-with-query-parameter%3FsomeParameter%3DsomeValue%26someOtherParameter%3DsomeOtherValue?instance_id=myCoolApp-Server1&app_name=myCoolApp',
-                    ])
+                    ->example('https://localhost:4242/api?instance_id=myCoolApp-Server1&app_name=myCoolApp')
+                    ->example('https://example.com/endpoint-with-query-parameter%3FsomeParameter%3DsomeValue%26someOtherParameter%3DsomeOtherValue?instance_id=myCoolApp-Server1&app_name=myCoolApp')
                     ->defaultNull()
                 ->end()
                 ->scalarNode('app_url')
