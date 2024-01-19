@@ -25,7 +25,7 @@ use Unleash\Client\Bundle\Event\UnleashEvents;
 use Unleash\Client\Exception\InvalidValueException;
 use Unleash\Client\Unleash;
 
-final readonly class ControllerAttributeResolver implements EventSubscriberInterface
+final class ControllerAttributeResolver implements EventSubscriberInterface
 {
     public function __construct(
         private Unleash $unleash,
@@ -63,12 +63,11 @@ final readonly class ControllerAttributeResolver implements EventSubscriberInter
         [$class, $method] = $controller;
         $reflectionClass = new ReflectionClass($class);
         $reflectionMethod = $reflectionClass->getMethod($method);
+        $item0Unpacked = $reflectionClass->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF);
+        $item1Unpacked = $reflectionMethod->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF);
 
         /** @var array<ReflectionAttribute<ControllerAttribute>> $attributes */
-        $attributes = [
-            ...$reflectionClass->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF),
-            ...$reflectionMethod->getAttributes(ControllerAttribute::class, ReflectionAttribute::IS_INSTANCEOF),
-        ];
+        $attributes = array_merge($item0Unpacked, $item1Unpacked);
 
         foreach ($attributes as $attribute) {
             $attribute = $attribute->newInstance();
