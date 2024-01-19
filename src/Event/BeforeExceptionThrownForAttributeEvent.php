@@ -8,17 +8,21 @@ use Throwable;
 
 final class BeforeExceptionThrownForAttributeEvent
 {
-    private ?Throwable $exception = null;
-
+    /**
+     * @var \Throwable|null
+     */
+    private $exception;
+    /**
+     * @readonly
+     * @var int
+     */
+    private $errorCode;
     public function __construct(
-        #[ExpectedValues([
-            Response::HTTP_NOT_FOUND,
-            Response::HTTP_FORBIDDEN,
-            Response::HTTP_BAD_REQUEST,
-            Response::HTTP_UNAUTHORIZED,
-        ])]
-        private readonly int $errorCode,
-    ) {
+        #[\JetBrains\PhpStorm\ExpectedValues([\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN, \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED])]
+        int $errorCode
+    )
+    {
+        $this->errorCode = $errorCode;
     }
 
     public function getException(): ?Throwable
@@ -33,12 +37,6 @@ final class BeforeExceptionThrownForAttributeEvent
         return $this;
     }
 
-    #[ExpectedValues([
-        Response::HTTP_NOT_FOUND,
-        Response::HTTP_FORBIDDEN,
-        Response::HTTP_BAD_REQUEST,
-        Response::HTTP_UNAUTHORIZED,
-    ])]
     public function getErrorCode(): int
     {
         return $this->errorCode;
