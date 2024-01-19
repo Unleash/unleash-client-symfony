@@ -33,6 +33,11 @@ final readonly class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('dsn')
+                    ->info('You can provide the connection details as a DSN instead of app_url, instance_id and app_name. DSN takes precedence over individual parameters.')
+                    ->example('https://localhost:4242/api?instance_id=myCoolApp-Server1&app_name=myCoolApp')
+                    ->defaultNull()
+                ->end()
                 ->scalarNode('app_url')
                     ->info('The application api URL')
                     ->defaultNull()
