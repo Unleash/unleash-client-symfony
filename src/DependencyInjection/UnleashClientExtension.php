@@ -119,7 +119,7 @@ final class UnleashClientExtension extends Extension
         $query = parse_url($dsn, PHP_URL_QUERY);
         assert(is_string($query));
         $instanceUrl = str_replace("?{$query}", '', $dsn);
-        if (str_contains($instanceUrl, '%3F')) {
+        if (strpos($instanceUrl, '%3F') !== false) {
             $instanceUrl = urldecode($instanceUrl);
         }
         parse_str($query, $queryParts);
