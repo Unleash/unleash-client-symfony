@@ -160,3 +160,8 @@ services:
       $cache: '@unleash.client.internal.cache'
     tags:
       - console.command
+
+  unleash.client.env_var_processor:
+    class: Unleash\Client\Bundle\DependencyInjection\UnleashEnvVarProcessor
+    arguments:
+      $client: '@unleash.client.unleash'

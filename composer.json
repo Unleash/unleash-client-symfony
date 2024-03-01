@@ -7,6 +7,7 @@
         "symfony/event-dispatcher": "^5.0 | ^6.0 | ^7.0",
         "symfony/http-client": "^5.0 | ^6.0 | ^7.0",
         "symfony/cache": "^5.0 | ^6.0 | ^7.0",
+        "symfony/dependency-injection": "^5.0 | ^6.0 | ^7.0",
         "nyholm/psr7": "^1.0",
         "unleash/client": "^1.6 | ^2.0",
         "php": "^8.2"
