@@ -27,7 +27,7 @@ final readonly class Configuration implements ConfigurationInterface
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('unleash_symfony_client');
+        $treeBuilder = new TreeBuilder('unleash_client');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
