@@ -7,11 +7,8 @@ use Unleash\Client\Unleash;
 
 final class UnleashEnvVarProcessor implements EnvVarProcessorInterface
 {
-    private Unleash $client;
-
-    public function __construct(Unleash $client)
+    public function __construct(private Unleash $client)
     {
-        $this->client = $client;
     }
 
     public function getEnv(string $prefix, string $name, \Closure $getEnv): bool
