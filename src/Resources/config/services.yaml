@@ -165,3 +165,5 @@ services:
     class: Unleash\Client\Bundle\DependencyInjection\UnleashEnvVarProcessor
     arguments:
       $client: '@unleash.client.unleash'
+    tags:
+      - container.env_var_processor
