@@ -9,7 +9,6 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\BootstrapResolver;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\CacheServiceResolverCompilerPass;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\HttpServicesResolverCompilerPass;
-use Unleash\Client\Bundle\DependencyInjection\UnleashEnvVarProcessor;
 use Unleash\Client\Strategy\StrategyHandler;
 
 final class UnleashClientBundle extends Bundle
@@ -20,8 +19,6 @@ final class UnleashClientBundle extends Bundle
             ->addTag('unleash.client.strategy_handler');
         $container->registerForAutoconfiguration(BootstrapProvider::class)
             ->addTag('unleash.client.bootstrap_provider');
-        $container->registerForAutoconfiguration(UnleashEnvVarProcessor::class)
-            ->addTag('container.env_var_processor');
 
         $container->addCompilerPass(
             new HttpServicesResolverCompilerPass(),

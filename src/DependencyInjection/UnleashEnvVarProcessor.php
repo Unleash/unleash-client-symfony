@@ -4,6 +4,7 @@ namespace Unleash\Client\Bundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 use Unleash\Client\Unleash;
+use Closure;
 
 final class UnleashEnvVarProcessor implements EnvVarProcessorInterface
 {
@@ -11,7 +12,7 @@ final class UnleashEnvVarProcessor implements EnvVarProcessorInterface
     {
     }
 
-    public function getEnv(string $prefix, string $name, \Closure $getEnv): bool
+    public function getEnv(string $prefix, string $name, Closure $getEnv): bool
     {
         $value = $this->client->isEnabled($name);
 
