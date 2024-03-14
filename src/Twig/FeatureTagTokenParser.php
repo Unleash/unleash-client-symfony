@@ -8,17 +8,23 @@ use Twig\TokenParser\AbstractTokenParser;
 
 final class FeatureTagTokenParser extends AbstractTokenParser
 {
-    public function __construct(
-        private readonly string $extensionClass,
-    ) {
+    /**
+     * @readonly
+     * @var string
+     */
+    private $extensionClass;
+    public function __construct(string $extensionClass)
+    {
+        $this->extensionClass = $extensionClass;
     }
-
     public function parse(Token $token): Node
     {
         $stream = $this->parser->getStream();
         $featureName = $stream->expect(Token::STRING_TYPE)->getValue();
         $stream->expect(Token::BLOCK_END_TYPE);
-        $body = $this->parser->subparse(fn (Token $token) => $token->test('endfeature'));
+        $body = $this->parser->subparse(function (Token $token) {
+            return $token->test('endfeature');
+        });
         $stream->expect(Token::NAME_TYPE, 'endfeature');
         $stream->expect(Token::BLOCK_END_TYPE);
 
