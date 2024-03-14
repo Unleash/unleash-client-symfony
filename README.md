@@ -341,6 +341,41 @@ have access to implicit `variant` variable.
 {% endfeature %}
 ```
 
+## Environment variable
+
+You can use it within a yaml/xml/php configuration as an environment variable and combine it with others [Environment Variable Processors](https://symfony.com/doc/current/configuration/env_var_processors.html)
+
+### YAML
+```yaml
+# config/services.yaml
+parameters:
+  # The next line in case you need a default value
+  %env(unleash:feature_name)%: false
+  feature_toggle: %env(unleash:feature_name)%
+```
+### XML
+```xml
+<!-- config/services.xml -->
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:framework="http://symfony.com/schema/dic/symfony"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd
+        http://symfony.com/schema/dic/symfony
+        https://symfony.com/schema/dic/symfony/symfony-1.0.xsd">
+    <parameters>
+        <parameter key="feature_toggle">%env(unleash:feature_name)%</parameter>
+    </parameters>
+
+</container>
+```
+### PHP
+```php
+// config/services.php
+$container->setParameter('feature_toggle', '%env(unleash:feature_name)%');
+```
+
 ## Custom strategies
 
 Defining custom strategies is very easy because they get automatically injected, you just need to create a class
