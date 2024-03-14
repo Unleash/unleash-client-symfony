@@ -14,11 +14,11 @@ use Unleash\Client\Unleash;
 final class UnleashTwigExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly Unleash $unleash,
-        private readonly bool $functionsEnabled,
-        private readonly bool $filtersEnabled,
-        private readonly bool $testsEnabled,
-        private readonly bool $tagsEnabled,
+        private Unleash $unleash,
+        private bool $functionsEnabled,
+        private bool $filtersEnabled,
+        private bool $testsEnabled,
+        private bool $tagsEnabled,
     ) {
     }
 
