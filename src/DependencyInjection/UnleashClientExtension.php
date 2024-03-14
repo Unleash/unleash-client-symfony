@@ -19,6 +19,8 @@ use Unleash\Client\Strategy\StrategyHandler;
  */
 final class UnleashClientExtension extends Extension
 {
+    private bool $servicesYamlLoaded = false;
+
     /**
      * @param array<string,mixed> $configs
      *
@@ -32,6 +34,7 @@ final class UnleashClientExtension extends Extension
         if (interface_exists(ExtensionInterface::class)) {
             $loader->load('twig.yaml');
         }
+        $this->servicesYamlLoaded = true;
 
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
         $container->setParameter('unleash.client.internal.service_configs', [
@@ -82,7 +85,10 @@ final class UnleashClientExtension extends Extension
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yaml');
+        if (!$this->servicesYamlLoaded) {
+            $loader->load('services.yaml');
+            $this->servicesYamlLoaded = true;
+        }
 
         $handlerNames = [];
         foreach ($this->getDefaultStrategyHandlers($container) as $defaultStrategyHandler) {
