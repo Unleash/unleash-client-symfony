@@ -12,7 +12,7 @@ use Unleash\Client\Bootstrap\FileBootstrapProvider;
 /**
  * @todo Make internal in next major
  */
-final readonly class BootstrapResolver implements CompilerPassInterface
+final class BootstrapResolver implements CompilerPassInterface
 {
     private const TAG = 'unleash.client.bootstrap_provider';
 
