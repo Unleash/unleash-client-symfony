@@ -28,7 +28,7 @@ First configure the basic parameters, either using a DSN or as separate paramete
 
 ```yaml
 unleash_client:
-  dsn: http://localhost:4242/api&instance_id=myCoolApp-Server1&app_name=myCoolApp
+  dsn: http://localhost:4242/api?instance_id=myCoolApp-Server1&app_name=myCoolApp
 ```
 
 or
