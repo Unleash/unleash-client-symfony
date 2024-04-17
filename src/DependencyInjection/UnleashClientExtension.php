@@ -51,19 +51,19 @@ final class UnleashClientExtension extends Extension
         if ($dsn !== null) {
             if ($this->isEnvPlaceholder($dsn, $container)) {
                 $envName = $container->resolveEnvPlaceholders($dsn, '%s');
-                $container->setDefinition('unleash.client.internal.app_url', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'url']));
-                $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'instance_id']));
-                $container->setDefinition('unleash.client.internal.app_name', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'app_name']));
+                $container->setDefinition('unleash.client.internal.app_url', new Definition(LateBoundDsnParameter::class, [$envName, 'url']));
+                $container->setDefinition('unleash.client.internal.instance_id', new Definition(LateBoundDsnParameter::class, [$envName, 'instance_id']));
+                $container->setDefinition('unleash.client.internal.app_name', new Definition(LateBoundDsnParameter::class, [$envName, 'app_name']));
             } else {
                 $details = $this->parseDsn($dsn);
-                $container->setDefinition('unleash.client.internal.app_url', new Definition(class: StaticStringableParameter::class, arguments: [$details['url'] ?? '']));
-                $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: StaticStringableParameter::class, arguments: [$details['instanceId'] ?? '']));
-                $container->setDefinition('unleash.client.internal.app_name', new Definition(class: StaticStringableParameter::class, arguments: [$details['appName'] ?? '']));
+                $container->setDefinition('unleash.client.internal.app_url', new Definition(StaticStringableParameter::class, [$details['url'] ?? '']));
+                $container->setDefinition('unleash.client.internal.instance_id', new Definition(StaticStringableParameter::class, [$details['instanceId'] ?? '']));
+                $container->setDefinition('unleash.client.internal.app_name', new Definition(StaticStringableParameter::class, [$details['appName'] ?? '']));
             }
         } else {
-            $container->setDefinition('unleash.client.internal.app_url', new Definition(class: StaticStringableParameter::class, arguments: [$configs['app_url'] ?? '']));
-            $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: StaticStringableParameter::class, arguments: [$configs['instance_id'] ?? '']));
-            $container->setDefinition('unleash.client.internal.app_name', new Definition(class: StaticStringableParameter::class, arguments: [$configs['app_name'] ?? '']));
+            $container->setDefinition('unleash.client.internal.app_url', new Definition(StaticStringableParameter::class, [$configs['app_url'] ?? '']));
+            $container->setDefinition('unleash.client.internal.instance_id', new Definition(StaticStringableParameter::class, [$configs['instance_id'] ?? '']));
+            $container->setDefinition('unleash.client.internal.app_name', new Definition(StaticStringableParameter::class, [$configs['app_name'] ?? '']));
         }
 
         $container->setParameter('unleash.client.internal.cache_ttl', $configs['cache_ttl']);
@@ -136,7 +136,7 @@ final class UnleashClientExtension extends Extension
         $query = parse_url($dsn, PHP_URL_QUERY);
         assert(is_string($query));
         $instanceUrl = str_replace("?{$query}", '', $dsn);
-        if (str_contains($instanceUrl, '%3F')) {
+        if (strpos($instanceUrl, '%3F') !== false) {
             $instanceUrl = urldecode($instanceUrl);
         }
         parse_str($query, $queryParts);
