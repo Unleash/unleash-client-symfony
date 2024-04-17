@@ -84,9 +84,9 @@ services:
   unleash.client.configuration:
     class: Unleash\Client\Configuration\UnleashConfiguration
     arguments:
-      $url: '%unleash.client.internal.app_url%'
-      $appName: '%unleash.client.internal.app_name%'
-      $instanceId: '%unleash.client.internal.instance_id%'
+      $url: '@unleash.client.internal.app_url'
+      $appName: '@unleash.client.internal.app_name'
+      $instanceId: '@unleash.client.internal.instance_id'
       $cache: '@unleash.client.internal.cache'
       $ttl: '%unleash.client.internal.cache_ttl%'
       $metricsInterval: '%unleash.client.internal.metrics_send_interval%'

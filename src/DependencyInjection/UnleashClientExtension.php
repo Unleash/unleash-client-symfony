@@ -10,8 +10,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Twig\Extension\ExtensionInterface;
+use Unleash\Client\Bundle\DependencyInjection\Dsn\LateBoundDsnParameter;
+use Unleash\Client\Bundle\DependencyInjection\Dsn\StaticStringableParameter;
 use Unleash\Client\Strategy\StrategyHandler;
 
 /**
@@ -37,6 +40,7 @@ final class UnleashClientExtension extends Extension
         $this->servicesYamlLoaded = true;
 
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
+
         $container->setParameter('unleash.client.internal.service_configs', [
             'http_client_service' => $configs['http_client_service'],
             'request_factory_service' => $configs['request_factory_service'],
@@ -45,14 +49,21 @@ final class UnleashClientExtension extends Extension
 
         $dsn = $configs['dsn'] ?? null;
         if ($dsn !== null) {
-            $details = $this->parseDsn($dsn);
-            $container->setParameter('unleash.client.internal.app_url', $details['url'] ?? '');
-            $container->setParameter('unleash.client.internal.instance_id', $details['instanceId'] ?? '');
-            $container->setParameter('unleash.client.internal.app_name', $details['appName'] ?? '');
+            if ($this->isEnvPlaceholder($dsn, $container)) {
+                $envName = $container->resolveEnvPlaceholders($dsn, '%s');
+                $container->setDefinition('unleash.client.internal.app_url', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'url']));
+                $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'instance_id']));
+                $container->setDefinition('unleash.client.internal.app_name', new Definition(class: LateBoundDsnParameter::class, arguments: [$envName, 'app_name']));
+            } else {
+                $details = $this->parseDsn($dsn);
+                $container->setDefinition('unleash.client.internal.app_url', new Definition(class: StaticStringableParameter::class, arguments: [$details['url'] ?? '']));
+                $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: StaticStringableParameter::class, arguments: [$details['instanceId'] ?? '']));
+                $container->setDefinition('unleash.client.internal.app_name', new Definition(class: StaticStringableParameter::class, arguments: [$details['appName'] ?? '']));
+            }
         } else {
-            $container->setParameter('unleash.client.internal.app_url', $configs['app_url'] ?? '');
-            $container->setParameter('unleash.client.internal.instance_id', $configs['instance_id'] ?? '');
-            $container->setParameter('unleash.client.internal.app_name', $configs['app_name'] ?? '');
+            $container->setDefinition('unleash.client.internal.app_url', new Definition(class: StaticStringableParameter::class, arguments: [$configs['app_url'] ?? '']));
+            $container->setDefinition('unleash.client.internal.instance_id', new Definition(class: StaticStringableParameter::class, arguments: [$configs['instance_id'] ?? '']));
+            $container->setDefinition('unleash.client.internal.app_name', new Definition(class: StaticStringableParameter::class, arguments: [$configs['app_name'] ?? '']));
         }
 
         $container->setParameter('unleash.client.internal.cache_ttl', $configs['cache_ttl']);
@@ -141,5 +152,20 @@ final class UnleashClientExtension extends Extension
             'instanceId' => $instanceId,
             'appName' => $appName,
         ];
+    }
+
+    private function isEnvPlaceholder(string $value, ContainerBuilder $container): bool
+    {
+        $bag = $container->getParameterBag();
+        if (!$bag instanceof EnvPlaceholderParameterBag) {
+            return false;
+        }
+        foreach ($bag->getEnvPlaceholders() as $placeholders) {
+            if (in_array($value, $placeholders, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
