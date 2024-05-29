@@ -1,11 +1,18 @@
 services:
   unleash.client.twig_extension:
     class: Unleash\Client\Bundle\Twig\UnleashTwigExtension
+    lazy: Twig\Extension\ExtensionInterface
     arguments:
-      - '@unleash.client.unleash'
       - '%unleash.client.internal.twig_functions_enabled%'
       - '%unleash.client.internal.twig_filters_enabled%'
       - '%unleash.client.internal.twig_tests_enabled%'
       - '%unleash.client.internal.twig_tags_enabled%'
     tags:
       - twig.extension
+
+  unleash.client.twig_runtime:
+    class: Unleash\Client\Bundle\Twig\UnleashTwigRuntime
+    arguments:
+      $unleash: '@unleash.client.unleash'
+    tags:
+      - twig.runtime
