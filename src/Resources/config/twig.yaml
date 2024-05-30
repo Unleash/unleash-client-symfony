@@ -1,7 +1,6 @@
 services:
   unleash.client.twig_extension:
     class: Unleash\Client\Bundle\Twig\UnleashTwigExtension
-    lazy: Twig\Extension\ExtensionInterface
     arguments:
       - '%unleash.client.internal.twig_functions_enabled%'
       - '%unleash.client.internal.twig_filters_enabled%'
