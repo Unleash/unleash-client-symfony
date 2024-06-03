@@ -1,5 +1,5 @@
 parameters:
-  unleash.bundle.version: '0.11.2'
+  unleash.bundle.version: '0.11.3'
 
 services:
 
