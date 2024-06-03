@@ -20,6 +20,9 @@ final readonly class LateBoundDsnParameter implements Stringable
         }
 
         $query = parse_url($dsn, PHP_URL_QUERY);
+        if ($query === null) {
+            return '';
+        }
         assert(is_string($query));
         $instanceUrl = str_replace("?{$query}", '', $dsn);
         if (str_contains($instanceUrl, '%3F')) {

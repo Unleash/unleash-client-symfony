@@ -7,14 +7,10 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
-use Unleash\Client\Configuration\Context;
-use Unleash\Client\DTO\Variant;
-use Unleash\Client\Unleash;
 
 final class UnleashTwigExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly Unleash $unleash,
         private readonly bool $functionsEnabled,
         private readonly bool $filtersEnabled,
         private readonly bool $testsEnabled,
@@ -32,8 +28,8 @@ final class UnleashTwigExtension extends AbstractExtension
         }
 
         return [
-            new TwigFunction('feature_is_enabled', [$this, 'isEnabled']),
-            new TwigFunction('feature_variant', [$this, 'getVariant']),
+            new TwigFunction('feature_is_enabled', [UnleashTwigRuntime::class, 'isEnabled']),
+            new TwigFunction('feature_variant', [UnleashTwigRuntime::class, 'getVariant']),
         ];
     }
 
@@ -47,8 +43,8 @@ final class UnleashTwigExtension extends AbstractExtension
         }
 
         return [
-            new TwigFilter('feature_is_enabled', [$this, 'isEnabled']),
-            new TwigFilter('feature_variant', [$this, 'getVariant']),
+            new TwigFilter('feature_is_enabled', [UnleashTwigRuntime::class, 'isEnabled']),
+            new TwigFilter('feature_variant', [UnleashTwigRuntime::class, 'getVariant']),
         ];
     }
 
@@ -62,7 +58,7 @@ final class UnleashTwigExtension extends AbstractExtension
         }
 
         return [
-            new TwigTest('enabled', [$this, 'isEnabled']),
+            new TwigTest('enabled', [UnleashTwigRuntime::class, 'isEnabled']),
         ];
     }
 
@@ -79,15 +75,5 @@ final class UnleashTwigExtension extends AbstractExtension
         return [
             new FeatureTagTokenParser(get_class($this)),
         ];
-    }
-
-    public function isEnabled(string $featureName, ?Context $context = null, bool $default = false): bool
-    {
-        return $this->unleash->isEnabled($featureName, $context, $default);
-    }
-
-    public function getVariant(string $featureName, ?Context $context = null, ?Variant $fallback = null): Variant
-    {
-        return $this->unleash->getVariant($featureName, $context, $fallback);
     }
 }
