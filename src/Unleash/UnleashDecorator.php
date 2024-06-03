@@ -14,16 +14,16 @@ use Unleash\Client\Strategy\StrategyHandler;
 use Unleash\Client\Unleash;
 use Unleash\Client\Variant\VariantHandler;
 
-final readonly class UnleashDecorator implements Unleash
+final class UnleashDecorator implements Unleash
 {
-    private Unleash $proxy;
+    private readonly Unleash $proxy;
 
     /**
      * @param array<string>             $disabledHandlers
      * @param iterable<StrategyHandler> $strategyHandlers
      */
     public function __construct(
-        private array $disabledHandlers,
+        private readonly array $disabledHandlers,
         iterable $strategyHandlers,
         UnleashRepository $repository,
         RegistrationService $registrationService,
