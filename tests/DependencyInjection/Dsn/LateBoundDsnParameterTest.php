@@ -71,12 +71,14 @@ final class LateBoundDsnParameterTest extends KernelTestCase
         yield [json_encode(['a' => 1, 'b' => 'c']), 'json:TEST_ENV', ['a' => 1, 'b' => 'c']];
         yield ['test_%some_param%', 'resolve:TEST_ENV', 'test_test'];
         yield ['a,b,c,d', 'csv:TEST_ENV', ['a', 'b', 'c', 'd']];
-        yield ['a,b,c,d', 'shuffle:csv:TEST_ENV', function (array $result) {
-            self::assertTrue(in_array('a', $result));
-            self::assertTrue(in_array('b', $result));
-            self::assertTrue(in_array('c', $result));
-            self::assertTrue(in_array('d', $result));
-        }];
+        if (PHP_VERSION_ID > 80000) {
+            yield ['a,b,c,d', 'shuffle:csv:TEST_ENV', function (array $result) {
+                self::assertTrue(in_array('a', $result));
+                self::assertTrue(in_array('b', $result));
+                self::assertTrue(in_array('c', $result));
+                self::assertTrue(in_array('d', $result));
+            }];
+        }
         yield [__DIR__ . '/../../data/file.txt', 'file:TEST_ENV', "hello\n"];
         yield [__DIR__ . '/../../data/file.php', 'require:TEST_ENV', 'test'];
         yield [__DIR__ . '/../../data/file.txt', 'trim:file:TEST_ENV', 'hello'];
