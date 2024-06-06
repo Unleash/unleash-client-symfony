@@ -17,7 +17,9 @@ final class LateBoundDsnParameterTest extends KernelTestCase
     protected function tearDown(): void
     {
         while (true) {
-            $previousHandler = set_exception_handler(static fn () => null);
+            $previousHandler = set_exception_handler(static function () {
+                return null;
+            });
             restore_exception_handler();
 
             if ($previousHandler === null) {
