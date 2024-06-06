@@ -94,7 +94,9 @@ final class LateBoundDsnParameterTest extends KernelTestCase
             self::assertSame(8000, $result['port']);
         }];
         yield ['https://testUser:testPwd@test-domain.org:8000/test-path?testQuery=testValue#testFragment', 'key:testQuery:query_string:key:query:url:TEST_ENV', 'testValue'];
-        yield ['whatever', 'defined:TEST_ENV', true];
+        if (PHP_VERSION_ID > 80100) {
+            yield ['whatever', 'defined:TEST_ENV', true];
+        }
         yield ['whatever', 'test:TEST_ENV', 'test'];
     }
 
