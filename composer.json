@@ -29,8 +29,8 @@
         "symfony/security-core": "^5.0 | ^6.0 | ^7.0",
         "symfony/expression-language": "^5.0 | ^6.0 | ^7.0",
         "twig/twig": "^3.3",
-        "symfony/yaml": "^6.3 | ^7.0",
-        "phpunit/phpunit": "^10 | ^11",
+        "symfony/yaml": "^5.0 | ^6.0 | ^7.0",
+        "phpunit/phpunit": "^10.0 | ^11.0",
         "symfony/phpunit-bridge": "^7.0"
     },
     "suggest": {
