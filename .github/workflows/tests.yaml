@@ -59,7 +59,7 @@ jobs:
       - name: Install Dependencies
         run: composer install
       - name: Run tests
-        run: composer phpunit
+        run: ./vendor/symfony/phpunit-bridge/bin/simple-phpunit
   testsTranspiled:
     name: Tests (transpiled versions)
     if: github.event_name == 'pull_request'
@@ -89,4 +89,4 @@ jobs:
       - name: Install Dependencies (Runtime)
         run: composer update
       - name: Run tests
-        run: composer phpunit
+        run: ./vendor/symfony/phpunit-bridge/bin/simple-phpunit
