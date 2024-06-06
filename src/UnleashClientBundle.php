@@ -9,6 +9,7 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\BootstrapResolver;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\CacheServiceResolverCompilerPass;
 use Unleash\Client\Bundle\DependencyInjection\Compiler\HttpServicesResolverCompilerPass;
+use Unleash\Client\Bundle\DependencyInjection\Compiler\ProcessLateBoundParameters;
 use Unleash\Client\Strategy\StrategyHandler;
 
 final class UnleashClientBundle extends Bundle
@@ -30,5 +31,6 @@ final class UnleashClientBundle extends Bundle
             PassConfig::TYPE_OPTIMIZE
         );
         $container->addCompilerPass(new BootstrapResolver());
+        $container->addCompilerPass(new ProcessLateBoundParameters(), PassConfig::TYPE_BEFORE_OPTIMIZATION, -100_000);
     }
 }
