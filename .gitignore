@@ -1,6 +1,7 @@
 /.idea
 /vendor
 /composer.lock
+/var
 
 /.php-cs-fixer.php
 /.php-cs-fixer.cache

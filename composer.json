@@ -16,6 +16,11 @@
             "Unleash\\Client\\Bundle\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Unleash\\Client\\Bundle\\Test\\": "tests/"
+        }
+    },
     "require-dev": {
         "rector/rector": "^0.15.23",
         "phpstan/phpstan": "^1.10",
@@ -24,7 +29,9 @@
         "symfony/security-core": "^5.0 | ^6.0 | ^7.0",
         "symfony/expression-language": "^5.0 | ^6.0 | ^7.0",
         "twig/twig": "^3.3",
-        "symfony/yaml": "^6.3 | ^7.0"
+        "symfony/yaml": "^6.3 | ^7.0",
+        "phpunit/phpunit": "^11.1",
+        "symfony/phpunit-bridge": "^7.0"
     },
     "suggest": {
         "symfony/security-bundle": "For integration of Symfony users into Unleash context",
