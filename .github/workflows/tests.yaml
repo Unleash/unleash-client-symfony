@@ -1,4 +1,4 @@
-name: Tests (8.x)
+name: Tests (8.2)
 on:
   push:
     branches:
@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: ${{ matrix.version }}
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Dependencies
         run: composer install
       - name: Test code style
@@ -36,49 +36,57 @@ jobs:
         with:
           php-version: ${{ matrix.version }}
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install Dependencies
         run: composer install
       - name: Run static analysis
         run: composer phpstan
-#  tests:
-#    name: Tests
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        version: ['8.0']
-#    steps:
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.version }}
-#      - name: Checkout Code
-#        uses: actions/checkout@v2
-#        with:
-#          submodules: true
-#      - name: Install Dependencies
-#        run: composer install
-#      - name: Run tests
-#        run: composer phpunit
-#  coverage:
-#    name: Report Coverage
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Setup PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.0
-#      - name: Checkout Code
-#        uses: actions/checkout@v2
-#        with:
-#          submodules: true
-#      - name: Install Dependencies
-#        run: composer install
-#      - name: Generate Coverage
-#        run: composer phpunit -- --coverage-clover ./build/logs/clover.xml
-#      - name: Download Coverage Client
-#        run: wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.4.3/php-coveralls.phar
-#      - name: Publish Coverage (Coveralls)
-#        run: php php-coveralls.phar -v
-#        env:
-#          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['8.2']
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.version }}
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install Dependencies
+        run: composer install
+      - name: Run tests
+        run: composer phpunit
+  testsTranspiled:
+    name: Tests (transpiled versions)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['7.3', '7.4', '8.0', '8.1']
+    steps:
+      - name: Setup Build PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install Dependencies (Build)
+        run: composer install
+      - name: Transpile ${{ matrix.version }}
+        run: php vendor/bin/rector process --no-diffs --no-progress-bar --config rector.$(echo ${{ matrix.version }} | sed -e 's/\.//').php src
+      - name: Update composer.json version
+        run: 'sed -i -e ''s/"php": "\^8.3"/"php": "\^${{ matrix.version }}"/'' composer.json'
+      - name: Setup Runtime PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.version }}
+      - name: Install Dependencies (Runtime)
+        run: composer update
+      - name: Run tests
+        run: composer phpunit

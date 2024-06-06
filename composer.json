@@ -39,7 +39,8 @@
     },
     "scripts": {
         "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
-        "phpstan": "phpstan analyse --level=max src"
+        "phpstan": "phpstan analyse --level=max src",
+        "phpunit": "phpunit"
     },
     "config": {
         "allow-plugins": {
