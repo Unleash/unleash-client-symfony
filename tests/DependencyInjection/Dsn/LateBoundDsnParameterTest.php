@@ -71,7 +71,7 @@ final class LateBoundDsnParameterTest extends KernelTestCase
         yield [json_encode(['a' => 1, 'b' => 'c']), 'json:TEST_ENV', ['a' => 1, 'b' => 'c']];
         yield ['test_%some_param%', 'resolve:TEST_ENV', 'test_test'];
         yield ['a,b,c,d', 'csv:TEST_ENV', ['a', 'b', 'c', 'd']];
-        if (PHP_VERSION_ID > 80000) {
+        if (PHP_VERSION_ID > 80100) {
             yield ['a,b,c,d', 'shuffle:csv:TEST_ENV', function (array $result) {
                 self::assertTrue(in_array('a', $result));
                 self::assertTrue(in_array('b', $result));
