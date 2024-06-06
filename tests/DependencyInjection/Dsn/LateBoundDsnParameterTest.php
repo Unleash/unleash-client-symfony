@@ -106,6 +106,7 @@ final class LateBoundDsnParameterTest extends KernelTestCase
         $preprocessors = [new EnvVarProcessor(self::getContainer(), null)];
         $instance = new LateBoundDsnParameter($envName, '', $preprocessors);
         $getEnvValue = (new ReflectionObject($instance))->getMethod('getEnvValue');
+        $getEnvValue->setAccessible(true);
         $result = $getEnvValue->invoke($instance, $envName);
         self::assertSame('test', $result);
     }
