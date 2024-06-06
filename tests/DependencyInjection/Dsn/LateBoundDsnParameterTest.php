@@ -39,7 +39,7 @@ final class LateBoundDsnParameterTest extends KernelTestCase
      *
      * @throws ReflectionException
      */
-    public function testPreprocessors(string $envValue, string $envName, mixed $expected)
+    public function testPreprocessors(string $envValue, string $envName, $expected)
     {
         $preprocessors = [new EnvVarProcessor(self::getContainer(), null), $this->customEnvProcessor()];
 
@@ -113,7 +113,7 @@ final class LateBoundDsnParameterTest extends KernelTestCase
     private function customEnvProcessor(): EnvVarProcessorInterface
     {
         return new class implements EnvVarProcessorInterface {
-            public function getEnv(string $prefix, string $name, Closure $getEnv): mixed
+            public function getEnv(string $prefix, string $name, Closure $getEnv): string
             {
                 return 'test';
             }
