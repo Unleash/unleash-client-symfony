@@ -28,6 +28,8 @@ final class LateBoundDsnParameterTest extends KernelTestCase
     }
 
     /**
+     * @dataProvider preprocessorsData
+     *
      * @param string $envValue The raw value of the string that will be assigned to the raw env name
      * @param string $envName  The name of the environment variable including all preprocessors
      * @param mixed  $expected If it is a callable, it's called with the result as a parameter to do complex assertions
@@ -35,7 +37,6 @@ final class LateBoundDsnParameterTest extends KernelTestCase
      *
      * @throws ReflectionException
      */
-    #[DataProvider('preprocessorsData')]
     public function testPreprocessors(string $envValue, string $envName, mixed $expected)
     {
         $preprocessors = [new EnvVarProcessor(self::getContainer(), null), $this->customEnvProcessor()];
