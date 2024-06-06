@@ -22,4 +22,8 @@
             <directory suffix=".php">src</directory>
         </include>
     </coverage>
+
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=1000"/>
+    </php>
 </phpunit>
