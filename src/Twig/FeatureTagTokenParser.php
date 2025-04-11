@@ -22,6 +22,8 @@ final class FeatureTagTokenParser extends AbstractTokenParser
         $stream->expect(Token::NAME_TYPE, 'endfeature');
         $stream->expect(Token::BLOCK_END_TYPE);
 
+        assert(is_string($featureName));
+
         return new FeatureTagNode($featureName, $body, $token->getLine(), $this->getTag(), $this->extensionClass);
     }
 
