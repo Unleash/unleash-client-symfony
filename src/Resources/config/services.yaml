@@ -143,6 +143,8 @@ services:
       - '@unleash.client.configuration'
       - '@unleash.client.metrics_handler'
       - '@unleash.client.variant_handler'
+    tags:
+      - {name: routing.condition_service, alias: 'unleash'}
 
   unleash.client.is_enabled_attribute_listener:
     class: Unleash\Client\Bundle\Listener\ControllerAttributeResolver
