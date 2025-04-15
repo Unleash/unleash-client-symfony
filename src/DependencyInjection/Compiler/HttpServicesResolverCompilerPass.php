@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * @todo Make internal in next major
  */
-final readonly class HttpServicesResolverCompilerPass implements CompilerPassInterface
+final class HttpServicesResolverCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

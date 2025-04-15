@@ -15,7 +15,7 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 /**
  * @todo Make internal in next major
  */
-final readonly class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     /**
      * @param array<string> $defaultStrategyNames
