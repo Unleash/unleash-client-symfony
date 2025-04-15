@@ -23,7 +23,7 @@ final class UnleashClientBundle extends Bundle
         $container->addCompilerPass(
             new HttpServicesResolverCompilerPass(),
             PassConfig::TYPE_BEFORE_OPTIMIZATION,
-            -100_000
+            -100000
         );
         $container->addCompilerPass(
             new CacheServiceResolverCompilerPass(),
