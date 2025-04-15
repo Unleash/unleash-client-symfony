@@ -9,7 +9,7 @@ use Twig\TokenParser\AbstractTokenParser;
 final class FeatureTagTokenParser extends AbstractTokenParser
 {
     public function __construct(
-        private readonly string $extensionClass,
+        private string $extensionClass,
     ) {
     }
 

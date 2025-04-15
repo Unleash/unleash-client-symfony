@@ -9,7 +9,7 @@ final class ContextValueNotFoundEvent extends Event
     private ?string $value = null;
 
     public function __construct(
-        private readonly string $contextName
+        private string $contextName
     ) {
     }
 
