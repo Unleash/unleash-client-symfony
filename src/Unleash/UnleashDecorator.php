@@ -14,23 +14,24 @@ use Unleash\Client\Strategy\StrategyHandler;
 use Unleash\Client\Unleash;
 use Unleash\Client\Variant\VariantHandler;
 
-final readonly class UnleashDecorator implements Unleash
+final class UnleashDecorator implements Unleash
 {
+    /**
+     * @readonly
+     */
     private Unleash $proxy;
-
+    /**
+     * @var array<string>
+     * @readonly
+     */
+    private array $disabledHandlers;
     /**
      * @param array<string>             $disabledHandlers
      * @param iterable<StrategyHandler> $strategyHandlers
      */
-    public function __construct(
-        private array $disabledHandlers,
-        iterable $strategyHandlers,
-        UnleashRepository $repository,
-        RegistrationService $registrationService,
-        UnleashConfiguration $configuration,
-        MetricsHandler $metricsHandler,
-        VariantHandler $variantHandler,
-    ) {
+    public function __construct(array $disabledHandlers, iterable $strategyHandlers, UnleashRepository $repository, RegistrationService $registrationService, UnleashConfiguration $configuration, MetricsHandler $metricsHandler, VariantHandler $variantHandler)
+    {
+        $this->disabledHandlers = $disabledHandlers;
         $strategyHandlers = $this->filter($strategyHandlers);
         $this->proxy = new DefaultUnleash(
             iterator_to_array($strategyHandlers),
