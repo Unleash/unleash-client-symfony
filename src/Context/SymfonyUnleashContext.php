@@ -23,24 +23,65 @@ use Unleash\Client\Enum\Stickiness;
 
 final class SymfonyUnleashContext implements Context
 {
-    private ?string $currentUserId = null;
+    /**
+     * @var string|null
+     */
+    private $currentUserId;
 
-    private ?string $ipAddress = null;
+    /**
+     * @var string|null
+     */
+    private $ipAddress;
 
-    private ?string $sessionId = null;
-
+    /**
+     * @var string|null
+     */
+    private $sessionId;
+    /**
+     * @readonly
+     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface|null
+     */
+    private $userTokenStorage;
+    /**
+     * @readonly
+     * @var string|null
+     */
+    private $userIdField;
+    /**
+     * @var array<string, string>
+     */
+    private $customProperties;
+    /**
+     * @readonly
+     * @var \Symfony\Component\HttpFoundation\RequestStack|null
+     */
+    private $requestStack;
+    /**
+     * @readonly
+     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage|null
+     */
+    private $expressionLanguage;
+    /**
+     * @readonly
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|null
+     */
+    private $eventDispatcher;
+    /**
+     * @var string|null
+     */
+    private $environment;
     /**
      * @param array<string,string> $customProperties
      */
-    public function __construct(
-        private readonly ?TokenStorageInterface $userTokenStorage,
-        private readonly ?string $userIdField,
-        private array $customProperties,
-        private readonly ?RequestStack $requestStack,
-        private readonly ?ExpressionLanguage $expressionLanguage,
-        private readonly ?EventDispatcherInterface $eventDispatcher,
-        private ?string $environment = null,
-    ) {
+    public function __construct(?TokenStorageInterface $userTokenStorage, ?string $userIdField, array $customProperties, ?RequestStack $requestStack, ?ExpressionLanguage $expressionLanguage, ?EventDispatcherInterface $eventDispatcher, ?string $environment = null)
+    {
+        $this->userTokenStorage = $userTokenStorage;
+        $this->userIdField = $userIdField;
+        $this->customProperties = $customProperties;
+        $this->requestStack = $requestStack;
+        $this->expressionLanguage = $expressionLanguage;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->environment = $environment;
     }
 
     public function getCurrentUserId(): ?string
@@ -56,7 +97,7 @@ final class SymfonyUnleashContext implements Context
             if (property_exists($user, $this->userIdField)) {
                 try {
                     return (string) $user->{$this->userIdField};
-                } catch (Error) {
+                } catch (Error $exception) {
                     // ignore
                 }
             }
@@ -79,7 +120,7 @@ final class SymfonyUnleashContext implements Context
 
         try {
             return $user->getUserIdentifier();
-        } catch (Error) {
+        } catch (Error $exception) {
             return method_exists($user, 'getUsername') ? $user->getUsername() : null;
         }
     }
@@ -139,7 +180,7 @@ final class SymfonyUnleashContext implements Context
         $value = $this->customProperties[$name];
         if (
             $this->expressionLanguage !== null
-            && str_starts_with($value, '>')
+            && strncmp($value, '>', strlen('>')) === 0
         ) {
             $expression = substr($value, 1);
             $value = $this->expressionLanguage->evaluate($expression, [
@@ -153,27 +194,32 @@ final class SymfonyUnleashContext implements Context
                 ));
             }
             $value = (string) $value;
-        } elseif (str_starts_with($value, '\>')) {
+        } elseif (strncmp($value, '\>', strlen('\>')) === 0) {
             $value = substr($value, 1);
         }
 
         return $value;
     }
 
-    public function setCustomProperty(string $name, string $value): self
+    /**
+     * @return $this
+     */
+    public function setCustomProperty(string $name, string $value): \Unleash\Client\Configuration\Context
     {
         $this->customProperties[$name] = $value;
 
         return $this;
     }
 
-    #[Pure]
     public function hasCustomProperty(string $name): bool
     {
         return array_key_exists($name, $this->customProperties);
     }
 
-    public function removeCustomProperty(string $name, bool $silent = true): self
+    /**
+     * @return $this
+     */
+    public function removeCustomProperty(string $name, bool $silent = true): \Unleash\Client\Configuration\Context
     {
         if (!$this->hasCustomProperty($name) && !$silent) {
             throw new InvalidArgumentException("The context doesn't contain property with name '{$name}'");
@@ -183,21 +229,30 @@ final class SymfonyUnleashContext implements Context
         return $this;
     }
 
-    public function setCurrentUserId(?string $currentUserId): self
+    /**
+     * @return $this
+     */
+    public function setCurrentUserId(?string $currentUserId): \Unleash\Client\Configuration\Context
     {
         $this->currentUserId = $currentUserId;
 
         return $this;
     }
 
-    public function setIpAddress(?string $ipAddress): self
+    /**
+     * @return $this
+     */
+    public function setIpAddress(?string $ipAddress): \Unleash\Client\Configuration\Context
     {
         $this->ipAddress = $ipAddress;
 
         return $this;
     }
 
-    public function setSessionId(?string $sessionId): self
+    /**
+     * @return $this
+     */
+    public function setSessionId(?string $sessionId): \Unleash\Client\Configuration\Context
     {
         $this->sessionId = $sessionId;
 
@@ -216,21 +271,29 @@ final class SymfonyUnleashContext implements Context
 
     public function findContextValue(string $fieldName): ?string
     {
-        return match ($fieldName) {
-            ContextField::USER_ID, Stickiness::USER_ID => $this->getCurrentUserId(),
-            ContextField::SESSION_ID, Stickiness::SESSION_ID => $this->getSessionId(),
-            ContextField::IP_ADDRESS => $this->getIpAddress(),
-            ContextField::ENVIRONMENT => $this->getEnvironment(),
-            ContextField::CURRENT_TIME => $this->getCurrentTime()->format(DateTimeInterface::ISO8601),
-            default => $this->findCustomProperty($fieldName),
-        };
+        switch ($fieldName) {
+            case ContextField::USER_ID:
+            case Stickiness::USER_ID:
+                return $this->getCurrentUserId();
+            case ContextField::SESSION_ID:
+            case Stickiness::SESSION_ID:
+                return $this->getSessionId();
+            case ContextField::IP_ADDRESS:
+                return $this->getIpAddress();
+            case ContextField::ENVIRONMENT:
+                return $this->getEnvironment();
+            case ContextField::CURRENT_TIME:
+                return $this->getCurrentTime()->format(DateTimeInterface::ISO8601);
+            default:
+                return $this->findCustomProperty($fieldName);
+        }
     }
 
     public function findCustomProperty(string $name): ?string
     {
         try {
             return $this->getCustomProperty($name);
-        } catch (InvalidArgumentException) {
+        } catch (InvalidArgumentException $exception) {
             return null;
         }
     }
@@ -240,7 +303,10 @@ final class SymfonyUnleashContext implements Context
         return $this->environment;
     }
 
-    public function setEnvironment(?string $environment): self
+    /**
+     * @return $this
+     */
+    public function setEnvironment(?string $environment): \Unleash\Client\Configuration\Context
     {
         $this->environment = $environment;
 
@@ -256,7 +322,10 @@ final class SymfonyUnleashContext implements Context
         return gethostname() ?: null;
     }
 
-    public function setHostname(?string $hostname): self
+    /**
+     * @return $this
+     */
+    public function setHostname(?string $hostname): \Unleash\Client\Configuration\Context
     {
         if ($hostname === null) {
             $this->removeCustomProperty(ContextField::HOSTNAME);
@@ -276,7 +345,11 @@ final class SymfonyUnleashContext implements Context
         return new DateTimeImmutable($this->getCustomProperty('currentTime'));
     }
 
-    public function setCurrentTime(DateTimeInterface|string|null $time): self
+    /**
+     * @param \DateTimeInterface|string|null $time
+     * @return $this
+     */
+    public function setCurrentTime($time): \Unleash\Client\Configuration\Context
     {
         if ($time === null) {
             $this->removeCustomProperty('currentTime');
