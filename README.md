@@ -1,3 +1,4 @@
+# This branch is auto generated
 [![Download](https://img.shields.io/packagist/dt/unleash/symfony-client-bundle.svg)](https://packagist.org/packages/unleash/symfony-client-bundle)
 
 A Symfony bundle for PHP implementation of the [Unleash protocol](https://www.getunleash.io/)
