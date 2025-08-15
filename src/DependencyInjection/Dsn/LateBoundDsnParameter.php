@@ -4,14 +4,21 @@ namespace Unleash\Client\Bundle\DependencyInjection\Dsn;
 
 use Stringable;
 
-final readonly class LateBoundDsnParameter implements Stringable
+final class LateBoundDsnParameter
 {
-    public function __construct(
-        private string $envName,
-        private string $parameter,
-    ) {
+    /**
+     * @readonly
+     */
+    private string $envName;
+    /**
+     * @readonly
+     */
+    private string $parameter;
+    public function __construct(string $envName, string $parameter)
+    {
+        $this->envName = $envName;
+        $this->parameter = $parameter;
     }
-
     public function __toString(): string
     {
         $dsn = getenv($this->envName) ?: $_ENV[$this->envName] ?? null;
@@ -25,7 +32,7 @@ final readonly class LateBoundDsnParameter implements Stringable
         }
         assert(is_string($query));
         $instanceUrl = str_replace("?{$query}", '', $dsn);
-        if (str_contains($instanceUrl, '%3F')) {
+        if (strpos($instanceUrl, '%3F') !== false) {
             $instanceUrl = urldecode($instanceUrl);
         }
         if ($this->parameter === 'url') {

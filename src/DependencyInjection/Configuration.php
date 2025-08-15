@@ -15,16 +15,20 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 /**
  * @todo Make internal in next major
  */
-final readonly class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
+    /**
+     * @var array<string>
+     * @readonly
+     */
+    private array $defaultStrategyNames;
     /**
      * @param array<string> $defaultStrategyNames
      */
-    public function __construct(
-        private array $defaultStrategyNames,
-    ) {
+    public function __construct(array $defaultStrategyNames)
+    {
+        $this->defaultStrategyNames = $defaultStrategyNames;
     }
-
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('unleash_client');
