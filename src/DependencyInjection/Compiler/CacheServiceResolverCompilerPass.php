@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * @todo Make internal in next major
  */
-final readonly class CacheServiceResolverCompilerPass implements CompilerPassInterface
+final class CacheServiceResolverCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

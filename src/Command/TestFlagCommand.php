@@ -16,70 +16,83 @@ use Unleash\Client\Unleash;
 
 final class TestFlagCommand extends Command
 {
-    public function __construct(
-        string $name,
-        private readonly Unleash $unleash,
-        private readonly CacheInterface $cache,
-    ) {
+    /**
+     * @readonly
+     */
+    private Unleash $unleash;
+    /**
+     * @readonly
+     */
+    private CacheInterface $cache;
+    public function __construct(string $name, Unleash $unleash, CacheInterface $cache)
+    {
+        $this->unleash = $unleash;
+        $this->cache = $cache;
         parent::__construct($name);
     }
-
     protected function configure(): void
     {
         $this
             ->setDescription('Check the status of an Unleash feature')
             ->addArgument(
-                name: 'flag',
-                mode: InputArgument::REQUIRED,
-                description: 'The name of the feature flag to check the result for',
+                'flag',
+                InputArgument::REQUIRED,
+                'The name of the feature flag to check the result for',
             )
             ->addOption(
-                name: 'force',
-                shortcut: 'f',
-                mode: InputOption::VALUE_NONE,
-                description: 'When this flag is present, fresh results without cache will be forced',
+                'force',
+                'f',
+                InputOption::VALUE_NONE,
+                'When this flag is present, fresh results without cache will be forced',
             )
             ->addOption(
-                name: 'user-id',
-                mode: InputOption::VALUE_REQUIRED,
-                description: "[Context] Provide the current user's ID",
-                default: null,
+                'user-id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                "[Context] Provide the current user's ID",
+                null,
             )
             ->addOption(
-                name: 'ip-address',
-                mode: InputOption::VALUE_REQUIRED,
-                description: '[Context] Provide the current IP address',
-                default: null,
+                'ip-address',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '[Context] Provide the current IP address',
+                null,
             )
             ->addOption(
-                name: 'session-id',
-                mode: InputOption::VALUE_REQUIRED,
-                description: '[Context] Provide the current session ID',
-                default: null,
+                'session-id',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '[Context] Provide the current session ID',
+                null,
             )
             ->addOption(
-                name: 'hostname',
-                mode: InputOption::VALUE_REQUIRED,
-                description: '[Context] Provide the current hostname',
-                default: null,
+                'hostname',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '[Context] Provide the current hostname',
+                null,
             )
             ->addOption(
-                name: 'environment',
-                mode: InputOption::VALUE_REQUIRED,
-                description: '[Context] Provide the current environment',
-                default: null,
+                'environment',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '[Context] Provide the current environment',
+                null,
             )
             ->addOption(
-                name: 'current-time',
-                mode: InputOption::VALUE_REQUIRED,
-                description: '[Context] Provide the current date and time',
-                default: null,
+                'current-time',
+                null,
+                InputOption::VALUE_REQUIRED,
+                '[Context] Provide the current date and time',
+                null,
             )
             ->addOption(
                 'custom-context',
-                mode: InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-                description: '[Context] Custom context values in the format [contextName]=[contextValue], for example: myCustomContextField=someValue',
-                default: null,
+                null,
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                '[Context] Custom context values in the format [contextName]=[contextValue], for example: myCustomContextField=someValue',
+                null,
             )
             ->addOption( // must use positional arguments, because $suggestedValues is not a real argument
                 'expected',
@@ -159,13 +172,13 @@ final class TestFlagCommand extends Command
         assert($currentTime === null || is_string($currentTime));
 
         return new UnleashContext(
-            currentUserId: $userId,
-            ipAddress: $ipAddress,
-            sessionId: $sessionId,
-            customContext: $customContext,
-            hostname: $hostname,
-            environment: $environment,
-            currentTime: $currentTime,
+            $userId,
+            $ipAddress,
+            $sessionId,
+            $customContext,
+            $hostname,
+            $environment,
+            $currentTime,
         );
     }
 }
