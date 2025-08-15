@@ -14,8 +14,11 @@ use Unleash\Client\Strategy\StrategyHandler;
 use Unleash\Client\Unleash;
 use Unleash\Client\Variant\VariantHandler;
 
-final readonly class UnleashDecorator implements Unleash
+final class UnleashDecorator implements Unleash
 {
+    /**
+     * @readonly
+     */
     private Unleash $proxy;
 
     /**

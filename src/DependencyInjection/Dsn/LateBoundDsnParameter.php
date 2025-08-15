@@ -4,7 +4,7 @@ namespace Unleash\Client\Bundle\DependencyInjection\Dsn;
 
 use Stringable;
 
-final readonly class LateBoundDsnParameter implements Stringable
+final class LateBoundDsnParameter implements Stringable
 {
     public function __construct(
         private string $envName,

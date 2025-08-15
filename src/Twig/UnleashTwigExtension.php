@@ -11,10 +11,10 @@ use Twig\TwigTest;
 final class UnleashTwigExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly bool $functionsEnabled,
-        private readonly bool $filtersEnabled,
-        private readonly bool $testsEnabled,
-        private readonly bool $tagsEnabled,
+        private bool $functionsEnabled,
+        private bool $filtersEnabled,
+        private bool $testsEnabled,
+        private bool $tagsEnabled,
     ) {
     }
 
