@@ -12,31 +12,28 @@ use Symfony\Component\HttpFoundation\Response;
 #[Attribute(Attribute::IS_REPEATABLE | Attribute::TARGET_METHOD | Attribute::TARGET_CLASS)]
 final class IsEnabled implements ControllerAttribute
 {
+    /**
+     * @var string
+     */
+    public $featureName;
+    /**
+     * @var int
+     */
+    public $errorCode = Response::HTTP_NOT_FOUND;
     public function __construct(
-        public string $featureName,
-        #[ExpectedValues([
-            Response::HTTP_NOT_FOUND,
-            Response::HTTP_FORBIDDEN,
-            Response::HTTP_BAD_REQUEST,
-            Response::HTTP_UNAUTHORIZED,
-            Response::HTTP_SERVICE_UNAVAILABLE,
-        ])]
-        public int $errorCode = Response::HTTP_NOT_FOUND,
-    ) {
+        string $featureName,
+        #[\JetBrains\PhpStorm\ExpectedValues([\Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND, \Symfony\Component\HttpFoundation\Response::HTTP_FORBIDDEN, \Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST, \Symfony\Component\HttpFoundation\Response::HTTP_UNAUTHORIZED, \Symfony\Component\HttpFoundation\Response::HTTP_SERVICE_UNAVAILABLE])]
+        int $errorCode = Response::HTTP_NOT_FOUND
+    )
+    {
+        $this->featureName = $featureName;
+        $this->errorCode = $errorCode;
     }
-
     public function getFeatureName(): string
     {
         return $this->featureName;
     }
 
-    #[ExpectedValues([
-        Response::HTTP_NOT_FOUND,
-        Response::HTTP_FORBIDDEN,
-        Response::HTTP_BAD_REQUEST,
-        Response::HTTP_UNAUTHORIZED,
-        Response::HTTP_SERVICE_UNAVAILABLE,
-    ])]
     public function getErrorCode(): int
     {
         return $this->errorCode;
