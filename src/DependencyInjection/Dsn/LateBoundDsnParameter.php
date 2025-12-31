@@ -19,7 +19,7 @@ final readonly class LateBoundDsnParameter implements Stringable
             return '';
         }
 
-        $query = parse_url($dsn, PHP_URL_QUERY);
+        $query = parse_url((string) $dsn, PHP_URL_QUERY);
         if ($query === null) {
             return '';
         }
@@ -29,7 +29,7 @@ final readonly class LateBoundDsnParameter implements Stringable
             $instanceUrl = urldecode($instanceUrl);
         }
         if ($this->parameter === 'url') {
-            return $instanceUrl;
+            return (string) $instanceUrl;
         }
         parse_str($query, $queryParts);
 

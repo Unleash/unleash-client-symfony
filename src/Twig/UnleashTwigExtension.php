@@ -21,6 +21,7 @@ final class UnleashTwigExtension extends AbstractExtension
     /**
      * @return array<TwigFunction>
      */
+    #[\Override]
     public function getFunctions(): array
     {
         if (!$this->functionsEnabled) {
@@ -36,6 +37,7 @@ final class UnleashTwigExtension extends AbstractExtension
     /**
      * @return array<TwigFilter>
      */
+    #[\Override]
     public function getFilters(): array
     {
         if (!$this->filtersEnabled) {
@@ -51,6 +53,7 @@ final class UnleashTwigExtension extends AbstractExtension
     /**
      * @return array<TwigTest>
      */
+    #[\Override]
     public function getTests(): array
     {
         if (!$this->testsEnabled) {
@@ -66,6 +69,7 @@ final class UnleashTwigExtension extends AbstractExtension
      * @return array<FeatureTagTokenParser>
      */
     #[Pure]
+    #[\Override]
     public function getTokenParsers(): array
     {
         if (!$this->tagsEnabled) {
@@ -73,7 +77,7 @@ final class UnleashTwigExtension extends AbstractExtension
         }
 
         return [
-            new FeatureTagTokenParser(get_class($this)),
+            new FeatureTagTokenParser(self::class),
         ];
     }
 }

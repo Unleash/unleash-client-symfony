@@ -67,9 +67,9 @@ final class SymfonyUnleashContext implements Context
             if (!is_scalar($value) && !$value instanceof Stringable) {
                 throw new TypeError(sprintf(
                     "The value of %s::%s must be convertable to string, '%s' given",
-                    get_class($user),
+                    $user::class,
                     $this->userIdField,
-                    is_object($value) ? get_class($value) : gettype($value),
+                    get_debug_type($value),
                 ));
             }
 
@@ -148,7 +148,7 @@ final class SymfonyUnleashContext implements Context
                 throw new TypeError(sprintf(
                     "The expression %s must evaluate to a type that is convertable to string, '%s' given",
                     $expression,
-                    is_object($value) ? get_class($value) : gettype($value),
+                    get_debug_type($value),
                 ));
             }
             $value = (string) $value;

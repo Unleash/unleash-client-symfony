@@ -93,6 +93,7 @@ final class UnleashClientExtension extends Extension
      *
      * @throws ReflectionException
      */
+    #[\Override]
     public function getConfiguration(array $config, ContainerBuilder $container): Configuration
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
@@ -160,12 +161,7 @@ final class UnleashClientExtension extends Extension
         if (!$bag instanceof EnvPlaceholderParameterBag) {
             return false;
         }
-        foreach ($bag->getEnvPlaceholders() as $placeholders) {
-            if (in_array($value, $placeholders, true)) {
-                return true;
-            }
-        }
 
-        return false;
+        return array_any($bag->getEnvPlaceholders(), fn ($placeholders) => in_array($value, $placeholders, true));
     }
 }
