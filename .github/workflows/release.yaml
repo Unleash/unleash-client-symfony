@@ -24,7 +24,7 @@ jobs:
         with:
           php-version: 8.2
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Install dependencies
         run: composer install
       - name: Check if version is updated in SDK
@@ -58,7 +58,7 @@ jobs:
         with:
           php-version: 8.2
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Install Dependencies
         run: composer install
       - name: Check if version is updated in SDK
@@ -104,7 +104,7 @@ jobs:
           script: |
             return context.payload.ref.replace(/refs\/tags\/release-/, '');
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v6
       - name: Delete original tag
         env:
           VERSION: ${{ steps.extract_name.outputs.result }}
