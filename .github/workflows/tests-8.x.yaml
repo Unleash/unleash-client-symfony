@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ['8.0', '8.1']
+        version: ['8.0', '8.1', '8.2', '8.3', '8.4']
     steps:
       - name: TBD
         run: echo 'To be done'
