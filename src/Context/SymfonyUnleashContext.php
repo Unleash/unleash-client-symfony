@@ -62,9 +62,6 @@ final class SymfonyUnleashContext implements Context
             }
             $reflection = new ReflectionObject($user);
             $idProperty = $reflection->getProperty($this->userIdField);
-            if (PHP_VERSION_ID < 80100) {
-                $idProperty->setAccessible(true);
-            }
 
             $value = $idProperty->getValue($user);
             if (!is_scalar($value) && !$value instanceof Stringable) {

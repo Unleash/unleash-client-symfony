@@ -1,4 +1,8 @@
 parameters:
+  level: 8
+  treatPhpDocTypesAsCertain: false
+  paths:
+    - src
   ignoreErrors:
+    - '#Comparison operation "<" between int<80500, 80599> and 80000 is always false.#'
     - '#expects class-string.+?, string given#'
-    - '#Dead catch - Error is never thrown in the try block.#'

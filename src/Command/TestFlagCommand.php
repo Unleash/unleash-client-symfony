@@ -137,7 +137,7 @@ final class TestFlagCommand extends Command
 
         $customContext = [];
         foreach ($customContextInput as $item) {
-            if (!fnmatch('*=*', $item)) {
+            if (!is_string($item) || !fnmatch('*=*', $item)) {
                 throw new LogicException('The value must be a key=value pair.');
             }
             [$key, $value] = explode('=', $item);

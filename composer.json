@@ -17,8 +17,8 @@
         }
     },
     "require-dev": {
-        "rector/rector": "^0.15.23",
-        "phpstan/phpstan": "^1.10",
+        "rector/rector": "^2.3",
+        "phpstan/phpstan": "^2.1.33",
         "friendsofphp/php-cs-fixer": "^3.15",
         "jetbrains/phpstorm-attributes": "^1.0",
         "symfony/security-core": "^5.0 | ^6.0 | ^7.0",
@@ -32,7 +32,7 @@
     },
     "scripts": {
         "fixer": "php-cs-fixer fix --verbose --allow-risky=yes",
-        "phpstan": "phpstan analyse --level=max src"
+        "phpstan": "phpstan analyse"
     },
     "config": {
         "allow-plugins": {
