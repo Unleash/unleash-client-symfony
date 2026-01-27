@@ -43,7 +43,7 @@ final readonly class BootstrapResolver implements CompilerPassInterface
             return;
         }
 
-        $serviceId = array_first($serviceIds);
+        $serviceId = $serviceIds[array_key_first($serviceIds)];
         if (count($serviceIds) > 1) {
             trigger_error(
                 sprintf("More than one service with tag '%s' found, choosing service '%s'", self::TAG, $serviceId),
