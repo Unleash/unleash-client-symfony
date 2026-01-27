@@ -4,10 +4,10 @@ namespace Unleash\Client\Bundle\DependencyInjection\Dsn;
 
 use Stringable;
 
-final readonly class StaticStringableParameter implements Stringable
+final class StaticStringableParameter implements Stringable
 {
     public function __construct(
-        private string $value,
+        private readonly string $value,
     ) {
     }
 

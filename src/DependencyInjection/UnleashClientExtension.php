@@ -161,7 +161,13 @@ final class UnleashClientExtension extends Extension
         if (!$bag instanceof EnvPlaceholderParameterBag) {
             return false;
         }
-
-        return array_any($bag->getEnvPlaceholders(), fn ($placeholders) => in_array($value, $placeholders, true));
+        $found = false;
+        foreach ($bag->getEnvPlaceholders() as $placeholders) {
+            if (in_array($value, $placeholders, true)) {
+                $found = true;
+                break;
+            }
+        }
+        return $found;
     }
 }
