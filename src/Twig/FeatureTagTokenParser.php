@@ -8,9 +8,13 @@ use Twig\TokenParser\AbstractTokenParser;
 
 final class FeatureTagTokenParser extends AbstractTokenParser
 {
-    public function __construct(
-        private readonly string $extensionClass,
-    ) {
+    /**
+     * @readonly
+     */
+    private string $extensionClass;
+    public function __construct(string $extensionClass)
+    {
+        $this->extensionClass = $extensionClass;
     }
 
     public function parse(Token $token): Node
