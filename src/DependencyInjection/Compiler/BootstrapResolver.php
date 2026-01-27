@@ -14,9 +14,15 @@ use Unleash\Client\Bootstrap\FileBootstrapProvider;
  */
 final readonly class BootstrapResolver implements CompilerPassInterface
 {
-    private const string TAG = 'unleash.client.bootstrap_provider';
+    /**
+     * @var string
+     */
+    private const TAG = 'unleash.client.bootstrap_provider';
 
-    private const string INTERNAL_SERVICE_NAME = 'unleash.client.internal.bootstrap_service';
+    /**
+     * @var string
+     */
+    private const INTERNAL_SERVICE_NAME = 'unleash.client.internal.bootstrap_service';
 
     public function process(ContainerBuilder $container): void
     {
@@ -43,7 +49,7 @@ final readonly class BootstrapResolver implements CompilerPassInterface
             return;
         }
 
-        $serviceId = array_first($serviceIds);
+        $serviceId = $serviceIds[array_key_first($serviceIds)];
         if (count($serviceIds) > 1) {
             trigger_error(
                 sprintf("More than one service with tag '%s' found, choosing service '%s'", self::TAG, $serviceId),
