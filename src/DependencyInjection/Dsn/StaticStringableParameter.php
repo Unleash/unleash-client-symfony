@@ -4,9 +4,12 @@ namespace Unleash\Client\Bundle\DependencyInjection\Dsn;
 
 use Stringable;
 
-final readonly class StaticStringableParameter implements Stringable
+final class StaticStringableParameter implements Stringable
 {
     public function __construct(
+        /**
+         * @readonly
+         */
         private string $value,
     ) {
     }

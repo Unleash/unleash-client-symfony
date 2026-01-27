@@ -33,12 +33,27 @@ final class SymfonyUnleashContext implements Context
      * @param array<string,string> $customProperties
      */
     public function __construct(
-        private readonly ?TokenStorageInterface $userTokenStorage,
-        private readonly ?string $userIdField,
+        /**
+         * @readonly
+         */
+        private ?TokenStorageInterface $userTokenStorage,
+        /**
+         * @readonly
+         */
+        private ?string $userIdField,
         private array $customProperties,
-        private readonly ?RequestStack $requestStack,
-        private readonly ?ExpressionLanguage $expressionLanguage,
-        private readonly ?EventDispatcherInterface $eventDispatcher,
+        /**
+         * @readonly
+         */
+        private ?RequestStack $requestStack,
+        /**
+         * @readonly
+         */
+        private ?ExpressionLanguage $expressionLanguage,
+        /**
+         * @readonly
+         */
+        private ?EventDispatcherInterface $eventDispatcher,
         private ?string $environment = null,
     ) {
     }

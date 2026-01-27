@@ -18,8 +18,14 @@ final class TestFlagCommand extends Command
 {
     public function __construct(
         string $name,
-        private readonly Unleash $unleash,
-        private readonly CacheInterface $cache,
+        /**
+         * @readonly
+         */
+        private Unleash $unleash,
+        /**
+         * @readonly
+         */
+        private CacheInterface $cache,
     ) {
         parent::__construct($name);
     }
