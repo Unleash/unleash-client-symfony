@@ -6,11 +6,15 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class ContextValueNotFoundEvent extends Event
 {
+    /**
+     * @readonly
+     */
+    private string $contextName;
     private ?string $value = null;
 
-    public function __construct(
-        private readonly string $contextName
-    ) {
+    public function __construct(string $contextName)
+    {
+        $this->contextName = $contextName;
     }
 
     public function getContextName(): string
