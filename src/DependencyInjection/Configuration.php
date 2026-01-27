@@ -15,14 +15,19 @@ use Unleash\Client\Bootstrap\BootstrapProvider;
 /**
  * @todo Make internal in next major
  */
-final readonly class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
+    /**
+     * @var array<string>
+     * @readonly
+     */
+    private $defaultStrategyNames;
     /**
      * @param array<string> $defaultStrategyNames
      */
-    public function __construct(
-        private array $defaultStrategyNames,
-    ) {
+    public function __construct(array $defaultStrategyNames)
+    {
+        $this->defaultStrategyNames = $defaultStrategyNames;
     }
 
     public function getConfigTreeBuilder(): TreeBuilder
@@ -91,7 +96,7 @@ final readonly class Configuration implements ConfigurationInterface
                 ->end()
                 ->integerNode('metrics_send_interval')
                     ->info('The interval at which to send metrics to the server in milliseconds')
-                    ->defaultValue(30_000)
+                    ->defaultValue(30000)
                 ->end()
                 ->booleanNode('metrics_enabled')
                     ->info('Whether to allow sending feature usage metrics to your instance of Unleash, set this to false for GitLab')

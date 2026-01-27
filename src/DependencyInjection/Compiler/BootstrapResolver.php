@@ -12,11 +12,17 @@ use Unleash\Client\Bootstrap\FileBootstrapProvider;
 /**
  * @todo Make internal in next major
  */
-final readonly class BootstrapResolver implements CompilerPassInterface
+final class BootstrapResolver implements CompilerPassInterface
 {
-    private const string TAG = 'unleash.client.bootstrap_provider';
+    /**
+     * @var string
+     */
+    private const TAG = 'unleash.client.bootstrap_provider';
 
-    private const string INTERNAL_SERVICE_NAME = 'unleash.client.internal.bootstrap_service';
+    /**
+     * @var string
+     */
+    private const INTERNAL_SERVICE_NAME = 'unleash.client.internal.bootstrap_service';
 
     public function process(ContainerBuilder $container): void
     {
@@ -25,10 +31,10 @@ final readonly class BootstrapResolver implements CompilerPassInterface
 
         if ($bootstrap === null) {
             $this->registerTaggedService($container);
-        } elseif (str_starts_with($bootstrap, 'file://')) {
+        } elseif (strncmp($bootstrap, 'file://', strlen('file://')) === 0) {
             $this->registerFileService($bootstrap, $container);
-        } elseif (str_starts_with($bootstrap, '@')) {
-            $this->registerServiceService(substr($bootstrap, 1), $container);
+        } elseif (strncmp($bootstrap, '@', strlen('@')) === 0) {
+            $this->registerServiceService((string) substr($bootstrap, 1), $container);
         } else {
             throw new LogicException("Unknown value for bootstrap: {$bootstrap}");
         }
@@ -43,7 +49,7 @@ final readonly class BootstrapResolver implements CompilerPassInterface
             return;
         }
 
-        $serviceId = array_first($serviceIds);
+        $serviceId = $serviceIds[array_key_first($serviceIds)];
         if (count($serviceIds) > 1) {
             trigger_error(
                 sprintf("More than one service with tag '%s' found, choosing service '%s'", self::TAG, $serviceId),

@@ -7,11 +7,16 @@ use Unleash\Client\Configuration\Context;
 use Unleash\Client\DTO\Variant;
 use Unleash\Client\Unleash;
 
-final readonly class UnleashTwigRuntime implements RuntimeExtensionInterface
+final class UnleashTwigRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(
-        private Unleash $unleash,
-    ) {
+    /**
+     * @readonly
+     * @var \Unleash\Client\Unleash
+     */
+    private $unleash;
+    public function __construct(Unleash $unleash)
+    {
+        $this->unleash = $unleash;
     }
 
     public function isEnabled(string $featureName, ?Context $context = null, bool $default = false): bool

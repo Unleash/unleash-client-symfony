@@ -10,12 +10,32 @@ use Twig\TwigTest;
 
 final class UnleashTwigExtension extends AbstractExtension
 {
-    public function __construct(
-        private readonly bool $functionsEnabled,
-        private readonly bool $filtersEnabled,
-        private readonly bool $testsEnabled,
-        private readonly bool $tagsEnabled,
-    ) {
+    /**
+     * @readonly
+     * @var bool
+     */
+    private $functionsEnabled;
+    /**
+     * @readonly
+     * @var bool
+     */
+    private $filtersEnabled;
+    /**
+     * @readonly
+     * @var bool
+     */
+    private $testsEnabled;
+    /**
+     * @readonly
+     * @var bool
+     */
+    private $tagsEnabled;
+    public function __construct(bool $functionsEnabled, bool $filtersEnabled, bool $testsEnabled, bool $tagsEnabled)
+    {
+        $this->functionsEnabled = $functionsEnabled;
+        $this->filtersEnabled = $filtersEnabled;
+        $this->testsEnabled = $testsEnabled;
+        $this->tagsEnabled = $tagsEnabled;
     }
 
     /**
@@ -68,7 +88,6 @@ final class UnleashTwigExtension extends AbstractExtension
     /**
      * @return array<FeatureTagTokenParser>
      */
-    #[Pure]
     #[\Override]
     public function getTokenParsers(): array
     {
