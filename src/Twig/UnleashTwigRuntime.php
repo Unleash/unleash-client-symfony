@@ -7,9 +7,12 @@ use Unleash\Client\Configuration\Context;
 use Unleash\Client\DTO\Variant;
 use Unleash\Client\Unleash;
 
-final readonly class UnleashTwigRuntime implements RuntimeExtensionInterface
+final class UnleashTwigRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
+        /**
+         * @readonly
+         */
         private Unleash $unleash,
     ) {
     }

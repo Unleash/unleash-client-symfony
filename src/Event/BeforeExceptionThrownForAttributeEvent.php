@@ -11,13 +11,16 @@ final class BeforeExceptionThrownForAttributeEvent
     private ?Throwable $exception = null;
 
     public function __construct(
+        /**
+         * @readonly
+         */
         #[ExpectedValues([
             Response::HTTP_NOT_FOUND,
             Response::HTTP_FORBIDDEN,
             Response::HTTP_BAD_REQUEST,
             Response::HTTP_UNAUTHORIZED,
         ])]
-        private readonly int $errorCode,
+        private int $errorCode,
     ) {
     }
 
